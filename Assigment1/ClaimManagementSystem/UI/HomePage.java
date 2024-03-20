@@ -1,5 +1,9 @@
 package ClaimManagementSystem.UI;
 
+import ClaimManagementSystem.Model.Claim;
+import ClaimManagementSystem.Model.ClaimProcessManager;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class HomePage {
@@ -44,4 +48,5 @@ public class HomePage {
                 break;
         }
     }
+
 }

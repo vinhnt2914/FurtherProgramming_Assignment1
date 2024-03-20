@@ -35,6 +35,8 @@ public class Main {
 //
         ClaimSystem.run();
 
+//        System.out.println(DataManager.getCustomer("c-0000001").getClaims().get(0).equals(DataManager.getClaim("f-0000000001")));
+
 //        DataManager.getInsuranceCards().forEach((s, val) -> System.out.println(val));
 //        DataManager.getClaims().forEach((s, val) -> System.out.println(val));
 

@@ -114,7 +114,21 @@ public class Claim {
         this.status = status;
     }
 
+    public void setDocuments(List<String> documents) {
+        this.documents = documents;
+    }
 
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
+    }
 
     @Override
     public String toString() {
@@ -131,15 +145,30 @@ public class Claim {
     }
 
     public String toData() {
-        return String.format("%s,%s,%s,%s,%s,%.2f,%s",
+        StringBuilder documentsString = new StringBuilder();
+        for (String document : documents) {
+            documentsString.append(document).append(",");
+        }
+        // Remove the trailing comma if there are documents present
+        if (!documentsString.isEmpty()) {
+            documentsString.deleteCharAt(documentsString.length() - 1);
+        }
+
+        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s",
                 id,
                 claimDate,
                 insuredPerson.getId(),
                 cardNumber,
                 examDate,
+                documentsString,
                 claimAmount,
-                status);
+                status,
+                bankName,
+                receiverName,
+                bankNumber
+                );
     }
+
 
     @Override
     public boolean equals(Object obj) {

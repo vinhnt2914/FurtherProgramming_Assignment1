@@ -1,10 +1,8 @@
 package ClaimManagementSystem.UI;
 
-import ClaimManagementSystem.ClaimSystem;
 import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
-import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -12,58 +10,108 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AddClaim {
+public class UpdateClaim {
     public static void run() {
-        displayOptions();
-    }
-
-    private static void displayOptions() {
-        System.out.println("Please enter the customer id that you want to add claims:");
-
         Scanner scanner = new Scanner(System.in);
-        String customerID = scanner.nextLine();
-
-        if (DataManager.getCustomer(customerID) != null) {
-            String claimID = getId(scanner);
-            LocalDate claimDate = getClaimDate(scanner);
-            Customer insuredPerson = DataManager.getCustomer(customerID);
-            String cardNumber = getCardNumber(scanner, insuredPerson);
-            LocalDate examDate = getExamDate(scanner);
-            List<String> document = getDocuments(scanner);
-            double claimAmount = getClaimAmount(scanner);
-            Claim.ClaimStatus claimStatus = getClaimStatus(scanner);
-            String bankName = getBankName(scanner);
-            String receiverName = getReceiverName(scanner);
-            String bankNumber = getBankNumber(scanner);
-            // Create the claim
-            Claim claim = new Claim(claimID, claimDate, insuredPerson, cardNumber,
-                                    examDate, document, claimAmount, claimStatus,
-                                    bankName, receiverName, bankNumber);
-            // Add the claim into system data.
-            DataManager.getClaims().put(claimID, claim);
-            ClaimSystem.displayClaims();
-
-            new ClaimService().add(claim);
-            HomePage.run();
-        } else {
-            System.out.println("This customer doesn't exists!");
-        }
-    }
-
-    private static String getId(Scanner scanner) {
-        String id;
         while (true) {
-            System.out.println("Enter claim id: ");
-            id = scanner.nextLine();
-            if (id.matches("^f-\\d{10}$")) {
-                if (DataManager.getClaims().containsKey(id)) {
-                    System.out.println("There is already a claim with this id!");
-                } else return id;
+            System.out.println("Enter claim id: ('q' to exit)");
+            String id = scanner.nextLine();
+            // Return to homepage
+            if (id.equals("q")) HomePage.run();
 
+            // Get claim from the system.
+            Claim claim = DataManager.getClaim(id);
+            if (claim == null) {
+                System.out.println("This claim doesn't exist");
             } else {
-                System.out.println("ID is invalid. Please enter a valid claim ID.");
+                displayOptions(scanner, claim);
             }
         }
+    }
+
+    private static void displayOptions(Scanner scanner, Claim claim) {
+        System.out.println("Select what you want to change in this claim:");
+        System.out.println("1. Claim Date");
+        System.out.println("2. Insured Person");
+        System.out.println("3. Exam Date");
+        System.out.println("4. Claim Amount");
+        System.out.println("5. Claim Status");
+        System.out.println("6. Bank Name");
+        System.out.println("7. Receiver Name");
+        System.out.println("8. Bank Number");
+        System.out.println("0. Exit");
+        System.out.println();
+        System.out.print("Enter your choice: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline character
+
+        switch (choice) {
+            case 1:
+                updateClaimDate(claim, getClaimDate(scanner));
+                break;
+            case 2:
+                updateInsuredPerson(claim, getInsuredPerson(scanner));
+                break;
+            case 3:
+                updateExamDate(claim, getExamDate(scanner));
+                break;
+            case 4:
+                updateClaimAmount(claim, getClaimAmount(scanner));
+                break;
+            case 5:
+                updateClaimStatus(claim, getClaimStatus(scanner));
+                break;
+            case 6:
+                updateBankName(claim, getBankName(scanner));
+                break;
+            case 7:
+                updateReceiver(claim, getReceiverName(scanner));
+            case 8:
+                updateBankNumber(claim, getBankNumber(scanner));
+            default:
+                System.out.println();
+                System.out.println("⚠️ Invalid choice. Please select a valid option.");
+                displayOptions(scanner, claim);
+                break;
+        }
+    }
+
+    private static void updateClaimDate(Claim claim, LocalDate newDate) {
+        claim.setClaimDate(newDate);
+    }
+
+    private static void updateInsuredPerson(Claim claim, Customer newInsuredPerson) {
+        claim.setInsuredPerson(newInsuredPerson);
+        updateCardNumber(claim, newInsuredPerson.getInsuranceCard().getCardNumber());
+    }
+
+    private static void updateCardNumber(Claim claim, String newCardNumber) {
+        claim.setCardNumber(newCardNumber);
+    }
+
+    private static void updateExamDate(Claim claim, LocalDate newDate) {
+        claim.setExamDate(newDate);
+    }
+
+    private static void updateClaimAmount(Claim claim, double newClaimAmount) {
+        claim.setClaimAmount(newClaimAmount);
+    }
+
+    private static void updateClaimStatus(Claim claim, Claim.ClaimStatus newStatus) {
+        claim.setStatus(newStatus);
+    }
+
+    private static void updateBankName(Claim claim, String newBankName) {
+        claim.setBankName(newBankName);
+    }
+
+    private static void updateReceiver(Claim claim, String newReceiver) {
+        claim.setReceiverName(newReceiver);
+    }
+
+    private static void updateBankNumber(Claim claim, String newBankNumber) {
+        claim.setBankNumber(newBankNumber);
     }
 
     private static LocalDate getClaimDate(Scanner scanner) {
@@ -76,6 +124,18 @@ public class AddClaim {
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Please enter the date in YYYY-MM-DD format.");
             }
+        }
+    }
+
+    private static Customer getInsuredPerson(Scanner scanner) {
+        LocalDate date;
+        while (true) {
+            System.out.println("Please enter the customer id:");
+            String id = scanner.nextLine();
+            Customer customer = DataManager.getCustomer(id);
+            if (customer == null) {
+                System.out.println("There is no customer with this id!");
+            } else return customer;
         }
     }
 
@@ -107,20 +167,6 @@ public class AddClaim {
                 return date;
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Please enter the date in YYYY-MM-DD format.");
-            }
-        }
-    }
-
-    private static List<String> getDocuments(Scanner scanner) {
-        List<String> documents = new ArrayList<>();
-        while (true) {
-            System.out.println("Enter document: ('q' to exit)");
-            String document = scanner.nextLine();
-            if (document.equals("q")) return documents;
-            if (document.matches("^f-\\d{10}_\\d{10}_\\w+\\.pdf$")) {
-                documents.add(document);
-            } else {
-                System.out.println("Invalid document format. Please follow the format: 'ClaimID_CardNumber_documentName.pdf'");
             }
         }
     }
@@ -182,7 +228,5 @@ public class AddClaim {
             }
         }
     }
-
-
 
 }

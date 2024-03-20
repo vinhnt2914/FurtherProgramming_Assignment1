@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Customer implements ClaimProcessManager{
+public abstract class Customer {
     private String id;
     private String name;
     private InsuranceCard insuranceCard;
@@ -76,35 +76,23 @@ public abstract class Customer implements ClaimProcessManager{
         return sb.toString();
     }
 
-    @Override
-    public void add(Claim claim) {
-        claims.add(claim);
+
+    public void update(Claim oldClaim, Claim newClaim) {
+        for (Claim claim : claims) {
+            if (claim == oldClaim) {
+                claims.remove(claim);
+                return;
+            }
+        }
+        claims.add(newClaim);
     }
 
-    @Override
-    public void update(Claim claim) {
-
-    }
-
-    @Override
     public void delete(Claim claim) {
         claims.remove(claim);
         claim.setInsuredPerson(null);
         DataManager.getClaims().remove(claim.getId());
     }
 
-    @Override
-    public Claim getOne(Claim claim) {
-        for (Claim c : claims) {
-            if (c == claim) return c;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Claim> getAll() {
-        return claims;
-    }
 
     @Override
     public boolean equals(Object obj) {

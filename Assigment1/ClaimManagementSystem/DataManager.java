@@ -8,7 +8,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
-public class DataManager {
+public class DataManager{
 
     private static TreeSet<Customer> customers = new TreeSet<>(new CustomerComparator());
     private static TreeMap<String, InsuranceCard> insuranceCards = new TreeMap<>(new IDComparator());
