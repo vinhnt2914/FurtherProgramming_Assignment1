@@ -18,7 +18,10 @@ public class UpdateClaim {
             System.out.println("Enter claim id: ('q' to exit)");
             String id = scanner.nextLine();
             // Return to homepage
-            if (id.equals("q")) HomePage.run();
+            if (id.equals("q")) {
+                HomePage.run();
+                break;
+            }
 
             // Get claim from the system.
             Claim claim = DataManager.getClaim(id);

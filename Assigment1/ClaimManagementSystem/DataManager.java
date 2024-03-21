@@ -87,7 +87,7 @@ public class DataManager{
 //    public static void writeCustomer(Customer customer) {
 //        try {
 //            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH, true));
-//            StringBuffer content = new StringBuffer();
+//            StringBuilder content = new StringBuilder();
 //            if (customer instanceof PolicyHolder) {
 //                content.append("PH,");
 //            } else if (customer instanceof Dependant) {
@@ -114,7 +114,6 @@ public class DataManager{
                     content.append("D,");
                 }
                 content.append(customer.toData());
-                System.out.println("Content: " + content);
                 content.append("\n");
             }
 

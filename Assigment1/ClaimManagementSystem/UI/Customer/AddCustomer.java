@@ -3,6 +3,7 @@ package ClaimManagementSystem.UI.Customer;
 import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.*;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -28,7 +29,19 @@ public class AddCustomer {
         else customer = new PolicyHolder(id, name);
 
         // Execute getInsuranceCard and set the customer's card
-        customer.setInsuranceCard(getInsuranceCard(scanner, customer));
+        InsuranceCard card = getInsuranceCard(scanner, customer);
+        customer.setInsuranceCard(card);
+        DataManager.getCustomers().add(customer);
+        DataManager.overWriteCustomer();
+
+
+        // If the customer has no card, then don't add to a database
+        if (card != null) {
+            DataManager.getInsuranceCards().put(card.getCardNumber(), card);
+            DataManager.writeInsuranceCard(card);
+        }
+
+
     }
 
     private static String getCustomerRole(Scanner scanner) {
@@ -37,12 +50,15 @@ public class AddCustomer {
             System.out.println("1. Dependant ");
             System.out.println("2. Policy Holder");
             String id = scanner.nextLine();
-            if (id.equalsIgnoreCase("q")) exit();
-            if (id.equalsIgnoreCase("d")) return "D";
-            if (id.equalsIgnoreCase("ph")) return "PH";
+            if (id.equalsIgnoreCase("q")) {
+                exit();
+                break;
+            }
+            if (id.equalsIgnoreCase("1")) return "D";
+            if (id.equalsIgnoreCase("2")) return "PH";
             System.out.println("⚠️ Invalid choice. Please select a valid option.");
-
         }
+        return null;
     }
 
     /**
@@ -56,7 +72,11 @@ public class AddCustomer {
         while (true) {
             System.out.println("Enter customer id: ");
             String id = scanner.nextLine();
-            if (id.matches("^c\\d{7}$")) return id;
+            if (id.matches("^c-\\d{7}$")) {
+                if (DataManager.getCustomer(id) == null)
+                    return id;
+                else System.out.println("This id is already taken");
+            }
             else System.out.println("Invalid id format, must be c-number (7 digits)!");
         }
     }
@@ -99,16 +119,16 @@ public class AddCustomer {
         while (true) {
             System.out.println("Enter card number: ");
             String cardNumber = scanner.nextLine();
-            if (cardNumber.matches("\\\\d{10}")) return cardNumber;
-            else System.out.println("Customer name cannot be null");
+            if (cardNumber.matches("\\d{10}")) return cardNumber;
+            else System.out.println("Card number name cannot be null");
         }
     }
 
     private static PolicyHolder getPolicyOwner(Scanner scanner) {
         while (true) {
-            System.out.println("Enter customer id: ");
+            System.out.println("Enter policy owner's id: ");
             String id = scanner.nextLine();
-            if (id.matches("^c\\d{7}$")) {
+            if (id.matches("^c-\\d{7}$")) {
                 Customer customer = DataManager.getCustomer(id);
                 if (customer == null) System.out.println("There is no customer with this id");
                 else if (customer instanceof PolicyHolder) return (PolicyHolder) customer;

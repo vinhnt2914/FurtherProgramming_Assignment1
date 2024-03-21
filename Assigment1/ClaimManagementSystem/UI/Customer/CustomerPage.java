@@ -21,10 +21,10 @@ public class CustomerPage {
 
         switch (choice) {
             case "1":
-
+                AddCustomer.run();
                 break;
             case "2":
-
+                DeleteCustomer.run();
                 break;
             case "3":
                 HomePage.run();

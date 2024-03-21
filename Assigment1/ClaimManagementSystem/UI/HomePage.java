@@ -1,6 +1,7 @@
 package ClaimManagementSystem.UI;
 
 import ClaimManagementSystem.UI.Claim.AddClaim;
+import ClaimManagementSystem.UI.Customer.CustomerPage;
 
 import java.util.Scanner;
 
@@ -13,11 +14,10 @@ public class HomePage {
 
     private static void displayOptions() {
         System.out.println("Please select an option:");
-        System.out.println("1. Add a claim");
-        System.out.println("2. Update a claim");
-        System.out.println("3. Delete a claim");
-        System.out.println("4. Find claim of a customer");
-        System.out.println("5. Exit");
+        System.out.println("1. Customers");
+        System.out.println("2. Insurance Cards");
+        System.out.println("3. Claim");
+        System.out.println("4. Exit");
         System.out.print("Enter your choice: ");
 
         Scanner scanner = new Scanner(System.in);
@@ -25,7 +25,7 @@ public class HomePage {
 
         switch (choice) {
             case "1":
-                AddClaim.run();
+                CustomerPage.run();
                 break;
             case "2":
                 // Process insurance claims logic
