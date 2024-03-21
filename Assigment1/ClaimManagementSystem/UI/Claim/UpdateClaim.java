@@ -7,8 +7,6 @@ import ClaimManagementSystem.UI.HomePage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class UpdateClaim {
@@ -34,52 +32,62 @@ public class UpdateClaim {
     }
 
     private static void displayOptions(Scanner scanner, Claim claim) {
-        System.out.println("Select what you want to change in this claim:");
-        System.out.println("1. Claim Date");
-        System.out.println("2. Insured Person");
-        System.out.println("3. Exam Date");
-        System.out.println("4. Claim Amount");
-        System.out.println("5. Claim Status");
-        System.out.println("6. Bank Name");
-        System.out.println("7. Receiver Name");
-        System.out.println("8. Bank Number");
-        System.out.println("0. Exit");
-        System.out.println();
-        System.out.print("Enter your choice: ");
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Select what you want to change in this claim:");
+            System.out.println("1. Claim Date");
+            System.out.println("2. Insured Person");
+            System.out.println("3. Exam Date");
+            System.out.println("4. Claim Amount");
+            System.out.println("5. Claim Status");
+            System.out.println("6. Bank Name");
+            System.out.println("7. Receiver Name");
+            System.out.println("8. Bank Number");
+            System.out.println("0. Exit");
+            System.out.println();
+            System.out.print("Enter your choice: ");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+            String choice = scanner.nextLine();
 
-        switch (choice) {
-            case 1:
-                updateClaimDate(claim, getClaimDate(scanner));
-                break;
-            case 2:
-                updateInsuredPerson(claim, getInsuredPerson(scanner));
-                break;
-            case 3:
-                updateExamDate(claim, getExamDate(scanner));
-                break;
-            case 4:
-                updateClaimAmount(claim, getClaimAmount(scanner));
-                break;
-            case 5:
-                updateClaimStatus(claim, getClaimStatus(scanner));
-                break;
-            case 6:
-                updateBankName(claim, getBankName(scanner));
-                break;
-            case 7:
-                updateReceiver(claim, getReceiverName(scanner));
-            case 8:
-                updateBankNumber(claim, getBankNumber(scanner));
-            default:
-                System.out.println();
-                System.out.println("⚠️ Invalid choice. Please select a valid option.");
-                displayOptions(scanner, claim);
-                break;
+            switch (choice) {
+                case "1":
+                    updateClaimDate(claim, getClaimDate(scanner));
+                    break;
+                case "2":
+                    updateInsuredPerson(claim, getInsuredPerson(scanner));
+                    break;
+                case "3":
+                    updateExamDate(claim, getExamDate(scanner));
+                    break;
+                case "4":
+                    updateClaimAmount(claim, getClaimAmount(scanner));
+                    break;
+                case "5":
+                    updateClaimStatus(claim, getClaimStatus(scanner));
+                    break;
+                case "6":
+                    updateBankName(claim, getBankName(scanner));
+                    break;
+                case "7":
+                    updateReceiver(claim, getReceiverName(scanner));
+                    break;
+                case "8":
+                    updateBankNumber(claim, getBankNumber(scanner));
+                    break;
+                case "0":
+                    exit = true; // Set exit to true to exit the loop
+                    break;
+                default:
+                    System.out.println();
+                    System.out.println("⚠️ Invalid choice. Please select a valid option.");
+                    break;
+            }
+
+            DataManager.overWriteClaim();
+            DataManager.overWriteCustomer();
         }
     }
+
 
     private static void updateClaimDate(Claim claim, LocalDate newDate) {
         claim.setClaimDate(newDate);
@@ -87,7 +95,14 @@ public class UpdateClaim {
 
     private static void updateInsuredPerson(Claim claim, Customer newInsuredPerson) {
         claim.setInsuredPerson(newInsuredPerson);
+        updateOldInsuredPerson(claim);
         updateCardNumber(claim, newInsuredPerson.getInsuranceCard().getCardNumber());
+
+    }
+
+    private static void updateOldInsuredPerson(Claim claim) {
+        Customer customer = claim.getInsuredPerson();
+        customer.getClaims().remove(claim);
     }
 
     private static void updateCardNumber(Claim claim, String newCardNumber) {
@@ -132,14 +147,20 @@ public class UpdateClaim {
     }
 
     private static Customer getInsuredPerson(Scanner scanner) {
-        LocalDate date;
         while (true) {
             System.out.println("Please enter the customer id:");
             String id = scanner.nextLine();
-            Customer customer = DataManager.getCustomer(id);
-            if (customer == null) {
-                System.out.println("There is no customer with this id!");
-            } else return customer;
+
+            if (id.matches("^f-\\d{10}$")) {
+                Customer customer = DataManager.getCustomer(id);
+                if (customer == null) {
+                    System.out.println("There is no customer with this id!");
+                }
+                // If the new insured person doesn't have a card. They are not eligible
+                else if (customer.getInsuranceCard() == null) {
+                    System.out.println("This customer doesn't have an insurance card. They are not eligible for this claim!");
+                } else return customer;
+            } else System.out.println("Wrong id format. Must be f-number (10 digits)");
         }
     }
 

@@ -70,7 +70,12 @@ public abstract class Customer {
         sb.append(name).append(",");
         sb.append(insuranceCard == null ? null : insuranceCard.getCardNumber()).append(",");
         for (int i = 0; i < claims.size(); i++) {
-            sb.append(claims.get(i).getId());
+            sb.append(claims.get(i).getId()).append(",");
+        }
+        if (this instanceof PolicyHolder) {
+            for (String id : ((PolicyHolder) this).getDependantsIDS()) {
+                sb.append(id).append(",");
+            }
         }
         return sb.toString();
     }

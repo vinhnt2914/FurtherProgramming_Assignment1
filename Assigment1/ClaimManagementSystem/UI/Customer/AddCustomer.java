@@ -110,7 +110,7 @@ public class AddCustomer {
 
     private static InsuranceCard createCardForCustomer(Scanner scanner, Customer customer) {
         String cardNumber = getCardNumber(scanner);
-        PolicyHolder policyOwner = getPolicyOwner(scanner);
+        PolicyHolder policyOwner = getPolicyOwner(scanner, customer);
         LocalDate expirationDate = getExpirationDate(scanner);
         return new InsuranceCard(cardNumber, customer, policyOwner, expirationDate);
     }
@@ -124,14 +124,25 @@ public class AddCustomer {
         }
     }
 
-    private static PolicyHolder getPolicyOwner(Scanner scanner) {
+    private static PolicyHolder getPolicyOwner(Scanner scanner, Customer customer) {
         while (true) {
             System.out.println("Enter policy owner's id: ");
             String id = scanner.nextLine();
+
             if (id.matches("^c-\\d{7}$")) {
-                Customer customer = DataManager.getCustomer(id);
-                if (customer == null) System.out.println("There is no customer with this id");
-                else if (customer instanceof PolicyHolder) return (PolicyHolder) customer;
+                Customer policyOwner = DataManager.getCustomer(id);
+                // If user choose a dependant to be policy onwer
+                if (policyOwner instanceof Dependant)
+                    System.out.println("A dependant cannot become a policy owner. Please choose someone else");
+                // If there is no customer
+                else if (policyOwner == null) System.out.println("There is no customer with this id");
+                // If the policy owner is chosen successfully, and the customer is a dependant.
+                // The customer will become that policy owner's dependant
+                else if (policyOwner instanceof PolicyHolder) {
+                    if (customer instanceof Dependant)
+                        ((PolicyHolder) policyOwner).addDependant((Dependant) customer);
+                    return (PolicyHolder) policyOwner;
+                }
                 else System.out.println("This customer is a dependant. A dependant cannot be a policy owner");
             }
             else System.out.println("Invalid customer id, must be c-number (7 digits)");

@@ -107,7 +107,7 @@ public class DataManager{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH));
             StringBuffer content = new StringBuffer();
 
-            for (Customer customer : DataManager.getCustomers()) {
+            for (Customer customer : customers) {
                 if (customer instanceof PolicyHolder) {
                     content.append("PH,");
                 } else if (customer instanceof Dependant) {
@@ -185,6 +185,24 @@ public class DataManager{
         }
     }
 
+    public static void overWriteInsuranceCards() {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(INSURANCE_FILE_PATH));
+            StringBuilder content = new StringBuilder();
+
+            for (InsuranceCard card : insuranceCards.values()) {
+
+                content.append(card.toData());
+                content.append("\n");
+            }
+
+            bufferedWriter.write(content.toString());
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void readClaim() {
         File file = new File(CLAIM_FILE_PATH);
         // If file doesn't exists, we create a new file.
@@ -248,6 +266,24 @@ public class DataManager{
             StringBuffer content = new StringBuffer();
             content.append(claim.toData());
             content.append("\n");
+            bufferedWriter.write(content.toString());
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void overWriteClaim() {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CLAIM_FILE_PATH));
+            StringBuilder content = new StringBuilder();
+
+            for (Claim claim : claims.values()) {
+
+                content.append(claim.toData());
+                content.append("\n");
+            }
+
             bufferedWriter.write(content.toString());
             bufferedWriter.close();
         } catch (IOException e) {

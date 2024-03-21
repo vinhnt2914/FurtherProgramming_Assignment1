@@ -1,9 +1,39 @@
 package ClaimManagementSystem.UI.Claim;
 
+import ClaimManagementSystem.UI.HomePage;
+
+import java.util.Scanner;
+
 public class ClaimPage {
 
     public static void run() {
+        displayOptions();
+    }
 
+    private static void displayOptions() {
+        System.out.println("What do you want to do with claims");
+        System.out.println("1. Add Claim");
+        System.out.println("2. Update Claim");
+        System.out.println("0. Go Back");
+
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1":
+                AddClaim.run();
+                break;
+            case "2":
+                UpdateClaim.run();
+                break;
+            case "0":
+                HomePage.run();
+                break;
+            default:
+                System.out.println();
+                System.out.println("⚠️ Invalid choice. Please select a valid option.");
+                break;
+        }
     }
 
 
