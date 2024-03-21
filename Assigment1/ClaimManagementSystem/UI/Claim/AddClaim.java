@@ -1,9 +1,10 @@
-package ClaimManagementSystem.UI;
+package ClaimManagementSystem.UI.Claim;
 
 import ClaimManagementSystem.ClaimSystem;
 import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
+import ClaimManagementSystem.UI.HomePage;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;

@@ -1,0 +1,40 @@
+package ClaimManagementSystem.UI.Customer;
+
+import ClaimManagementSystem.UI.HomePage;
+
+import java.util.Scanner;
+
+public class CustomerPage {
+    public static void run() {
+        displayOptions();
+    }
+
+    private static void displayOptions() {
+        System.out.println("Please select an option:");
+        System.out.println("1. Add a customer");
+        System.out.println("2. Delete a customer");
+        System.out.println("3. Go back");
+        System.out.print("Enter your choice: ");
+
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1":
+
+                break;
+            case "2":
+
+                break;
+            case "3":
+                HomePage.run();
+                break;
+
+            default:
+                System.out.println();
+                System.out.println("⚠️ Invalid choice. Please select a valid option.");
+                displayOptions();
+                break;
+        }
+    }
+}

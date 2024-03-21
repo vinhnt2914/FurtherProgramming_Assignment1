@@ -2,7 +2,6 @@ package ClaimManagementSystem.Model;
 
 import ClaimManagementSystem.DataManager;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,7 @@ public abstract class Customer {
         claims = new ArrayList<>();
     }
 
-    public void addInsuranceCard(InsuranceCard card) {
+    public void setInsuranceCard(InsuranceCard card) {
         this.insuranceCard = card;
     }
 

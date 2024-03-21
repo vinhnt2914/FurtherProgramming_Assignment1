@@ -1,8 +1,9 @@
-package ClaimManagementSystem.UI;
+package ClaimManagementSystem.UI.Claim;
 
 import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
+import ClaimManagementSystem.UI.HomePage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

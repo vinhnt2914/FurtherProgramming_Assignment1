@@ -1,8 +1,6 @@
 package ClaimManagementSystem.Model;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class InsuranceCard {
     private String cardNumber;
@@ -15,7 +13,7 @@ public class InsuranceCard {
         this.cardHolder = cardHolder;
         this.policyOwner = policyOwner;
         this.expirationDate = expirationDate;
-        cardHolder.addInsuranceCard(this);
+        cardHolder.setInsuranceCard(this);
     }
 
     public String getCardNumber() {

@@ -1,9 +1,7 @@
 package ClaimManagementSystem.UI;
 
-import ClaimManagementSystem.Model.Claim;
-import ClaimManagementSystem.Model.ClaimProcessManager;
+import ClaimManagementSystem.UI.Claim.AddClaim;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class HomePage {
@@ -23,22 +21,21 @@ public class HomePage {
         System.out.print("Enter your choice: ");
 
         Scanner scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        String choice = scanner.nextLine();
 
         switch (choice) {
-            case 1:
+            case "1":
                 AddClaim.run();
                 break;
-            case 2:
+            case "2":
                 // Process insurance claims logic
                 break;
-            case 3:
+            case "3":
                 // View reports and statistics logic
                 break;
-            case 4:
+            case "4":
                 break;
-            case 5:
+            case "5":
                 System.out.println("Thank you for using the Claim Management System. Goodbye!");
                 System.exit(0);
             default:
