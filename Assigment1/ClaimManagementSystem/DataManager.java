@@ -6,6 +6,7 @@ import ClaimManagementSystem.Utility.CustomerComparator;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class DataManager{
@@ -40,17 +41,12 @@ public class DataManager{
      * All dependants are written first before policy holders.
      * */
     private static void loadCustomer(File file) {
-        Map<String, Dependant> dependants = new HashMap<>();
-        Map<String, PolicyHolder> policyHolders = new HashMap<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while (reader.ready()) {
                 String[] str = reader.readLine().split(",");
                 customers.add(createCustomer(str));
             }
-
-//            customers.putAll();
-//            customers.
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +101,7 @@ public class DataManager{
     public static void overWriteCustomer() {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH));
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
 
             for (Customer customer : customers) {
                 if (customer instanceof PolicyHolder) {
@@ -165,20 +161,41 @@ public class DataManager{
      * @return Insurance card of the input id
      * */
     private static InsuranceCard createCard(String[] str) {
-        String cardNumber = str[0];
-        Customer cardHolder = getCustomer(str[1]);
-        Customer policyOwner = getCustomer(str[2]);
-        LocalDate expirationDate = LocalDate.parse(str[3]);
-        return new InsuranceCard(cardNumber, cardHolder, (PolicyHolder) policyOwner, expirationDate);
+        try {
+            String cardNumber = str[0];
+            Customer cardHolder = getCustomer(str[1]);
+            PolicyHolder policyOwner = (PolicyHolder) getCustomer(str[2]);
+            LocalDate expirationDate = LocalDate.parse(str[3]);
+
+            // If the cardholder is a dependant and he/she is not inside the policy owner's list of dependant
+            if (cardHolder instanceof Dependant && policyOwner != null) {
+                if (!policyOwner.getDependantList().contains(cardHolder)) {
+                    throw new IllegalArgumentException("Error creating InsuranceCard: The dependant must be in the policy owner's list of dependants");
+                }
+                // If the cardholder is a policyholder, then the policy owner must be himself
+            } else if (cardHolder instanceof PolicyHolder) {
+                if (policyOwner != cardHolder) {
+                    throw new IllegalArgumentException("Error creating InsuranceCard: The card holder is a PolicyHolder, so the policy owner should match");
+                }
+            }
+
+            assert cardHolder != null;
+            return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
+
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Error creating InsuranceCard: PolicyOwner must be of type PolicyHolder. Please check for flaws in database!");
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Error creating InsuranceCard: Invalid expiration date format");
+        }
     }
+
 
     public static void writeInsuranceCard(InsuranceCard card) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(INSURANCE_FILE_PATH, true));
-            StringBuffer content = new StringBuffer();
-            content.append(card.toData());
-            content.append("\n");
-            bufferedWriter.write(content.toString());
+            String content = card.toData() +
+                    "\n";
+            bufferedWriter.write(content);
             bufferedWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -239,6 +256,8 @@ public class DataManager{
         String id = str[0];
         LocalDate claimDate = LocalDate.parse(str[1]);
         Customer insuredPerson = getCustomer(str[2]);
+        assert insuredPerson != null;
+        System.out.println("Insured person for claim: " + id + " is " + insuredPerson.getId());
         String cardNumber = str[3];
         LocalDate examDate = LocalDate.parse(str[4]);
 
@@ -263,10 +282,9 @@ public class DataManager{
     public static void writeClaim(Claim claim) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CLAIM_FILE_PATH, true));
-            StringBuffer content = new StringBuffer();
-            content.append(claim.toData());
-            content.append("\n");
-            bufferedWriter.write(content.toString());
+            String content = claim.toData() +
+                    "\n";
+            bufferedWriter.write(content);
             bufferedWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -94,6 +94,13 @@ public class Claim {
         this.claimDate = claimDate;
     }
 
+    /**
+     * <p>
+     *     setInsuredPerson will not automatically add the claim to the
+     *     person's list of claim, this is to prevent duplication that
+     *     might happen if mistakes are made.
+     * </p>
+     * */
     public void setInsuredPerson(Customer insuredPerson) {
         this.insuredPerson = insuredPerson;
     }

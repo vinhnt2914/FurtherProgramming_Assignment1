@@ -94,16 +94,23 @@ public class UpdateClaim {
     }
 
     private static void updateInsuredPerson(Claim claim, Customer newInsuredPerson) {
+        // Swap the claim from old insured person to new insured person
+        swapClaim(claim, newInsuredPerson);
+    }
+
+    /**
+     * <p>
+     *     Helper function for swapping claim between 2 customers
+     * </p>
+     * */
+    private static void swapClaim(Claim claim, Customer newInsuredPerson) {
+        claim.getInsuredPerson().removeClaim(claim);
         claim.setInsuredPerson(newInsuredPerson);
-        updateOldInsuredPerson(claim);
+        newInsuredPerson.addClaim(claim);
+        // Update the card number in claim to new insured person's card
         updateCardNumber(claim, newInsuredPerson.getInsuranceCard().getCardNumber());
-
     }
 
-    private static void updateOldInsuredPerson(Claim claim) {
-        Customer customer = claim.getInsuredPerson();
-        customer.getClaims().remove(claim);
-    }
 
     private static void updateCardNumber(Claim claim, String newCardNumber) {
         claim.setCardNumber(newCardNumber);
@@ -151,7 +158,7 @@ public class UpdateClaim {
             System.out.println("Please enter the customer id:");
             String id = scanner.nextLine();
 
-            if (id.matches("^f-\\d{10}$")) {
+            if (id.matches("^c-\\d{7}$")) {
                 Customer customer = DataManager.getCustomer(id);
                 if (customer == null) {
                     System.out.println("There is no customer with this id!");
@@ -160,7 +167,7 @@ public class UpdateClaim {
                 else if (customer.getInsuranceCard() == null) {
                     System.out.println("This customer doesn't have an insurance card. They are not eligible for this claim!");
                 } else return customer;
-            } else System.out.println("Wrong id format. Must be f-number (10 digits)");
+            } else System.out.println("Wrong id format. Must be c-number (7 digits)");
         }
     }
 

@@ -42,6 +42,14 @@ public abstract class Customer {
         return claims;
     }
 
+    public List<String> getClaimIDs() {
+        List<String> ids = new ArrayList<>();
+        for (Claim claim : claims) {
+            ids.add(claim.getId());
+        }
+        return ids;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -58,7 +66,7 @@ public abstract class Customer {
             sb.append("      None\n");
         } else {
             for (Claim claim : claims) {
-                sb.append(String.format("      - %s\n", claim));
+                sb.append(String.format("      - %s\n", claim.getId()));
             }
         }
         return sb.toString();
@@ -69,8 +77,8 @@ public abstract class Customer {
         sb.append(id).append(",");
         sb.append(name).append(",");
         sb.append(insuranceCard == null ? null : insuranceCard.getCardNumber()).append(",");
-        for (int i = 0; i < claims.size(); i++) {
-            sb.append(claims.get(i).getId()).append(",");
+        for (Claim claim : claims) {
+            sb.append(claim.getId()).append(",");
         }
         if (this instanceof PolicyHolder) {
             for (String id : ((PolicyHolder) this).getDependantsIDS()) {
@@ -91,10 +99,15 @@ public abstract class Customer {
         claims.add(newClaim);
     }
 
-    public void delete(Claim claim) {
+    /**
+     * <p>
+     *     Remove claim will not set insured person in claim to null.
+     *     This is to prevent NullPointerException. Setting insured person
+     *     to another person will be handle in other functions
+     * </p>
+     * */
+    public void removeClaim(Claim claim) {
         claims.remove(claim);
-        claim.setInsuredPerson(null);
-        DataManager.getClaims().remove(claim.getId());
     }
 
 
