@@ -11,23 +11,34 @@ public class ClaimService implements ClaimProcessManager {
     public void add(Claim claim) {
         // Add the claim to system and database
         DataManager.getClaims().put(claim.getId(), claim);
-        DataManager.writeClaim(claim);
     }
 
     /**
      * <p>
      *     Search for the claim in database then overwrite it
      * </p>
-     * @param claim Updated claim
      * */
     @Override
-    public void update(Claim claim) {
-
+    public void update(Claim oldClaim, Claim newClaim) {
+        delete(oldClaim);
+        add(newClaim);
     }
 
+    /**
+     * <p>
+     *     Before deleting a claim, we must delete the claim
+     *     from the respective customer's list of claims.
+     * </p>
+     * */
     @Override
     public void delete(Claim claim) {
-
+        // Delete claim from customer's list of claim
+        claim.getInsuredPerson().removeClaim(claim);
+        // Remove claim from the system
+        DataManager.getClaims().remove(claim.getId());
+        // Overwrite the data
+        DataManager.overWriteCustomer();
+        DataManager.overWriteClaim();
     }
 
     @Override

@@ -34,11 +34,11 @@ public class DataManager{
     }
 
     /**
-     * Since we have to add dependants to policy holder. There will be cases where the policy
-     * holder appear before the dependants in the text file. Because reading is linear, getCustomer()
+     * Since we have to add dependants to policyholder. There will be cases where the policyholder
+     * appears before the dependants in the text file. Because reading is linear, getCustomer()
      * can only return customers that are read before. So a practical approach is to load all
-     * dependants first before policy holders. Another approach is to restructure text file so that.
-     * All dependants are written first before policy holders.
+     * dependants first before policyholders. Another approach is to restructure text file so that.
+     * All dependants are written first before policyholders.
      * */
     private static void loadCustomer(File file) {
         try {
@@ -183,7 +183,7 @@ public class DataManager{
             return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
 
         } catch (ClassCastException e) {
-            throw new IllegalArgumentException("Error creating InsuranceCard: PolicyOwner must be of type PolicyHolder. Please check for flaws in database!");
+            throw new ClassCastException("Error creating InsuranceCard: PolicyOwner must be of type PolicyHolder. Please check for flaws in database!");
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Error creating InsuranceCard: Invalid expiration date format");
         }

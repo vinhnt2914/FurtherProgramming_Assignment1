@@ -19,36 +19,41 @@ public class AddClaim {
     }
 
     private static void displayOptions() {
-        System.out.println("Please enter the customer id that you want to add claims:");
 
         Scanner scanner = new Scanner(System.in);
-        String customerID = scanner.nextLine();
 
-        if (DataManager.getCustomer(customerID) != null) {
-            String claimID = getId(scanner);
-            LocalDate claimDate = getClaimDate(scanner);
-            Customer insuredPerson = DataManager.getCustomer(customerID);
-            String cardNumber = getCardNumber(scanner, insuredPerson);
-            LocalDate examDate = getExamDate(scanner);
-            List<String> document = getDocuments(scanner);
-            double claimAmount = getClaimAmount(scanner);
-            Claim.ClaimStatus claimStatus = getClaimStatus(scanner);
-            String bankName = getBankName(scanner);
-            String receiverName = getReceiverName(scanner);
-            String bankNumber = getBankNumber(scanner);
-            // Create the claim
-            Claim claim = new Claim(claimID, claimDate, insuredPerson, cardNumber,
-                                    examDate, document, claimAmount, claimStatus,
-                                    bankName, receiverName, bankNumber);
-            // Add the claim into system data.
-            DataManager.getClaims().put(claimID, claim);
-            ClaimSystem.displayClaims();
+        String claimID = getId(scanner);
+        LocalDate claimDate = getClaimDate(scanner);
+        Customer insuredPerson = getInsuredPerson(scanner);
+        String cardNumber = getCardNumber(scanner, insuredPerson);
+        LocalDate examDate = getExamDate(scanner);
+        List<String> document = getDocuments(scanner);
+        double claimAmount = getClaimAmount(scanner);
+        Claim.ClaimStatus claimStatus = getClaimStatus(scanner);
+        String bankName = getBankName(scanner);
+        String receiverName = getReceiverName(scanner);
+        String bankNumber = getBankNumber(scanner);
+        // Create the claim
+        Claim claim = new Claim(claimID, claimDate, insuredPerson, cardNumber,
+                examDate, document, claimAmount, claimStatus,
+                bankName, receiverName, bankNumber);
+        // Add the claim into system data.
+        new ClaimService().add(claim);
+        ClaimPage.run();
+//        DataManager.getClaims().put(claimID, claim);
+//        ClaimSystem.displayClaims();
 
-            new ClaimService().add(claim);
-            HomePage.run();
-        } else {
-            System.out.println("This customer doesn't exists!");
-        }
+//        HomePage.run();
+
+//        System.out.println("Please enter the customer id that you want to add claims:");
+//
+//        Scanner scanner = new Scanner(System.in);
+//
+//        if (DataManager.getCustomer(customerID) != null) {
+//
+//        } else {
+//            System.out.println("This customer doesn't exists!");
+//        }
     }
 
     private static String getId(Scanner scanner) {
@@ -77,6 +82,24 @@ public class AddClaim {
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Please enter the date in YYYY-MM-DD format.");
             }
+        }
+    }
+
+    private static Customer getInsuredPerson(Scanner scanner) {
+        while (true) {
+            System.out.println("Please enter the insured person id:");
+            String id = scanner.nextLine();
+
+            if (id.matches("^c-\\d{7}$")) {
+                Customer customer = DataManager.getCustomer(id);
+                if (customer == null) {
+                    System.out.println("There is no customer with this id!");
+                }
+                // If the new insured person doesn't have a card. They are not eligible
+                else if (customer.getInsuranceCard() == null) {
+                    System.out.println("This customer doesn't have an insurance card. They are not eligible for this claim!");
+                } else return customer;
+            } else System.out.println("Wrong id format. Must be c-number (7 digits)");
         }
     }
 

@@ -9,6 +9,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * <p>
+ *     Updating a claim work by accessing the claim in the system data, and
+ *     directly modify it. Then overwrite all data back into text file.
+ * </p>
+ *
+ * */
 public class UpdateClaim {
     public static void run() {
         Scanner scanner = new Scanner(System.in);

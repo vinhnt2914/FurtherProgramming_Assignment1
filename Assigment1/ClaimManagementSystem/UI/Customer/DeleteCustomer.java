@@ -21,19 +21,24 @@ public class DeleteCustomer {
     private static void displayOptions() {
         Scanner scanner = new Scanner(System.in);
         Customer customer = getCustomerId(scanner);
+        deleteCustomer(customer);
+    }
 
+    private static void deleteCustomer(Customer customer) {
         // If the customer have cards or claims, delete everything related to them.
         // Get all the cards and claims
-        assert customer != null;
-        InsuranceCard card = customer.getInsuranceCard();
-        List<Claim> claims = customer.getClaims();
+        InsuranceCard card = null;
+        List<Claim> claims = null;
+        if (customer != null) {
+            card = customer.getInsuranceCard();
+            claims = customer.getClaims();
+        }
+
 
         // Delete cards and claims from system and database
         if (card != null) DataManager.getInsuranceCards().remove(card.getCardNumber());
-        if (!claims.isEmpty()) {
-            claims.forEach(claim -> {
-                DataManager.getClaims().remove(claim.getId());
-            });
+        if (claims != null && !claims.isEmpty()) {
+            claims.forEach(claim -> DataManager.getClaims().remove(claim.getId()));
         }
 
         // If the deleted customer is a dependant then delete them from the policyholder's list of dependants
@@ -60,9 +65,15 @@ public class DeleteCustomer {
                 exit();
                 break;
             }
-            Customer customer = DataManager.getCustomer(id);
-            if (customer != null) return customer;
-            else System.out.println("There is no customer with this id");
+
+            if (id.matches("^c-\\d{7}$")) {
+                Customer customer = DataManager.getCustomer(id);
+                if (customer != null) return customer;
+                else System.out.println("There is no customer with this id");
+            } else {
+                System.out.println("Invalid customer id, must be in format: c-number (7 digits).");
+            }
+
         }
         return null;
     }
