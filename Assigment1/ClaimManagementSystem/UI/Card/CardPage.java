@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CardPage {
     public static void run() {
-
+        displayOptions();
     }
 
     private static void displayOptions() {
@@ -23,7 +23,7 @@ public class CardPage {
 
         switch (choice) {
             case "1":
-
+                AddCard.run();
                 break;
             case "2":
 

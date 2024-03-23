@@ -1,5 +1,6 @@
 package ClaimManagementSystem.UI;
 
+import ClaimManagementSystem.UI.Card.CardPage;
 import ClaimManagementSystem.UI.Claim.AddClaim;
 import ClaimManagementSystem.UI.Claim.ClaimPage;
 import ClaimManagementSystem.UI.Customer.CustomerPage;
@@ -29,7 +30,7 @@ public class HomePage {
                 CustomerPage.run();
                 break;
             case "2":
-                // Process insurance claims logic
+                CardPage.run();
                 break;
             case "3":
                 ClaimPage.run();

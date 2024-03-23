@@ -27,6 +27,10 @@ public class PolicyHolder extends Customer{
         return ids;
     }
 
+    public boolean hasDependant(Dependant dependant) {
+        return dependantList.contains(dependant);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

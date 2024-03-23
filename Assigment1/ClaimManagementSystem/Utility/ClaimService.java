@@ -7,6 +7,7 @@ import ClaimManagementSystem.Model.ClaimProcessManager;
 import java.util.Map;
 
 public class ClaimService implements ClaimProcessManager {
+
     @Override
     public void add(Claim claim) {
         // Add the claim to system and database

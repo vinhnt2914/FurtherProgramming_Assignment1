@@ -12,20 +12,30 @@ import java.util.Scanner;
 
 public class AddCard {
     public static void run() {
-
+        displayOptions();
     }
 
     private static void displayOptions() {
         Scanner scanner = new Scanner(System.in);
         String cardNumber = getCardNumber(scanner);
         Customer cardHolder = getCardHolder(scanner);
-        PolicyHolder policyOwner = getPolicyOwner(scanner);
+        PolicyHolder policyOwner = getPolicyOwner(scanner, cardHolder);
         LocalDate expirationDate = getExpirationDate(scanner);
         InsuranceCard card = new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
         
-        DataManager.getInsuranceCards().put(cardNumber, card);
-        DataManager.writeInsuranceCard(card);
+        addCard(card);
     }
+
+    private static void addCard(InsuranceCard card) {
+        DataManager.getInsuranceCards().put(card.getCardNumber(), card);
+        Customer customer = DataManager.getCustomer(card.getCardHolder().getId());
+        if (customer != null) {
+            customer.setInsuranceCard(card);
+            DataManager.writeInsuranceCard(card);
+            DataManager.overWriteCustomer();
+        }
+    }
+
 
     private static String getCardNumber(Scanner scanner) {
         String cardNumber;
@@ -61,22 +71,29 @@ public class AddCard {
         }
     }
 
-    private static PolicyHolder getPolicyOwner(Scanner scanner) {
+    private static PolicyHolder getPolicyOwner(Scanner scanner, Customer cardHolder) {
         while (true) {
             System.out.println("Please enter the policy owner's id:");
             String id = scanner.nextLine();
 
             if (id.matches("^c-\\d{7}$")) {
-                Customer customer = DataManager.getCustomer(id);
-                if (customer == null) {
-                    System.out.println("There is no customer with this id!");
+                try {
+                    PolicyHolder policyOwner = (PolicyHolder) DataManager.getCustomer(id);
+                    if (policyOwner == null) {
+                        System.out.println("There is no customer with this id!");
+                    } else if (cardHolder instanceof Dependant) {
+                        if (!policyOwner.getDependantList().contains(cardHolder)) {
+                            System.out.println("The card holder is a dependant but he/she is not a dependant of the policy owner!");
+                        } else return policyOwner;
+                    // If the cardholder is a policyholder, then the policy owner must be himself
+                    } else if (cardHolder instanceof PolicyHolder) {
+                        if (policyOwner != cardHolder) {
+                            System.out.println("The card holder is a policy holder so the policy owner must also be him/herself");
+                        } else return policyOwner;
+                    }
+                } catch (ClassCastException e) {
+                    System.out.println("This customer is not of policy holder type");
                 }
-                // Check is user entered id of a dependant
-                else if (customer instanceof Dependant) {
-                    System.out.println("Policy owner must be a policy holder");
-                }
-                // If the new insured person doesn't have a card. They are not eligible
-                else return (PolicyHolder) customer;
             } else System.out.println("Wrong id format. Must be c-number (7 digits)");
         }
     }
