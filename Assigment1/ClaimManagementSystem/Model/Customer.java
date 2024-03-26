@@ -110,6 +110,10 @@ public abstract class Customer {
         claims.remove(claim);
     }
 
+    public void removeCard(InsuranceCard insuranceCard) {
+        setInsuranceCard(null);
+    }
+
 
     @Override
     public boolean equals(Object obj) {

@@ -164,20 +164,9 @@ public class DataManager{
         try {
             String cardNumber = str[0];
             Customer cardHolder = getCustomer(str[1]);
-            PolicyHolder policyOwner = (PolicyHolder) getCustomer(str[2]);
+            String policyOwner = str[2];
             LocalDate expirationDate = LocalDate.parse(str[3]);
 
-            // If the cardholder is a dependant and he/she is not inside the policy owner's list of dependant
-            if (cardHolder instanceof Dependant && policyOwner != null) {
-                if (!policyOwner.getDependantList().contains(cardHolder)) {
-                    throw new IllegalArgumentException("Error creating InsuranceCard: The dependant must be in the policy owner's list of dependants");
-                }
-                // If the cardholder is a policyholder, then the policy owner must be himself
-            } else if (cardHolder instanceof PolicyHolder) {
-                if (policyOwner != cardHolder) {
-                    throw new IllegalArgumentException("Error creating InsuranceCard: The card holder is a PolicyHolder, so the policy owner should match");
-                }
-            }
 
             assert cardHolder != null;
             return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);

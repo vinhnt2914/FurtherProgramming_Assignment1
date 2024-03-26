@@ -31,6 +31,7 @@ public class Main {
         DataManager.readClaim();
 //
         ClaimSystem.displayCustomers();
+        ClaimSystem.displayCards();
         ClaimSystem.displayClaims();
 //
         ClaimSystem.run();

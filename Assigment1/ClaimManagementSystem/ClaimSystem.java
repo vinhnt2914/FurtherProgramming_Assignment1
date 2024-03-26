@@ -28,6 +28,22 @@ public class ClaimSystem {
         System.out.println();
     }
 
+    public static void displayCards() {
+        System.out.println("CARD DETAILS");
+        System.out.println();
+        System.out.printf("%-20s %-20s %-20s %-20s\n", "Number", "Card Holder", "Policy Owner", "Expiration Date");
+
+        for (InsuranceCard card : DataManager.getInsuranceCards().values()) {
+            System.out.printf("%-20s %-20s %-20s %-20s\n",
+                    card.getCardNumber(),
+                    card.getCardHolder().getId(),
+                    card.getPolicyOwner(),
+                    card.getExpirationDate());
+
+        }
+        System.out.println();
+    }
+
     public static void displayClaims() {
         System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                 "ID", "Claim Date", "Insured Person", "Card Number",
@@ -43,11 +59,4 @@ public class ClaimSystem {
         System.out.println();
     }
 
-    private static List<String> getDependantsIDS(PolicyHolder policyHolder) {
-        List<String> ids = new ArrayList<>();
-        for (Dependant d : policyHolder.getDependantList()) {
-            ids.add(d.getId());
-        }
-        return ids;
-    }
 }
