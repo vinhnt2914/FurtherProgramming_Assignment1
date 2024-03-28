@@ -4,6 +4,8 @@ import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.ClaimProcessManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ClaimService implements ClaimProcessManager {
@@ -12,17 +14,6 @@ public class ClaimService implements ClaimProcessManager {
     public void add(Claim claim) {
         // Add the claim to system and database
         DataManager.getClaims().put(claim.getId(), claim);
-    }
-
-    /**
-     * <p>
-     *     Search for the claim in database then overwrite it
-     * </p>
-     * */
-    @Override
-    public void update(Claim oldClaim, Claim newClaim) {
-        delete(oldClaim);
-        add(newClaim);
     }
 
     /**
@@ -43,12 +34,12 @@ public class ClaimService implements ClaimProcessManager {
     }
 
     @Override
-    public Claim getOne(Claim claim) {
-        return null;
+    public Claim getOne(String id) {
+        return DataManager.getClaim(id);
     }
 
     @Override
-    public Map<String, Claim> getAll() {
-        return null;
+    public List<Claim> getAll() {
+        return new ArrayList<>(DataManager.getClaims().values());
     }
 }

@@ -2,6 +2,7 @@ package ClaimManagementSystem;
 
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.UI.HomePage;
+import ClaimManagementSystem.Utility.ClaimService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +46,13 @@ public class ClaimSystem {
     }
 
     public static void displayClaims() {
+        ClaimService claimService = new ClaimService();
         System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                 "ID", "Claim Date", "Insured Person", "Card Number",
                 "Exam Date", "Documents", "Claim Amount", "Status",
                 "Bank", "Receiver", "Bank Number");
 
-        for (Claim claim : DataManager.getClaims().values()) {
+        for (Claim claim : claimService.getAll()) {
             System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                     claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
                     claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),

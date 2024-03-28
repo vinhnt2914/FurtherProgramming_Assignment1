@@ -40,20 +40,6 @@ public class AddClaim {
         // Add the claim into system data.
         new ClaimService().add(claim);
         ClaimPage.run();
-//        DataManager.getClaims().put(claimID, claim);
-//        ClaimSystem.displayClaims();
-
-//        HomePage.run();
-
-//        System.out.println("Please enter the customer id that you want to add claims:");
-//
-//        Scanner scanner = new Scanner(System.in);
-//
-//        if (DataManager.getCustomer(customerID) != null) {
-//
-//        } else {
-//            System.out.println("This customer doesn't exists!");
-//        }
     }
 
     private static String getId(Scanner scanner) {

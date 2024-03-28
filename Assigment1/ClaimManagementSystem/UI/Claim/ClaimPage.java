@@ -1,5 +1,6 @@
 package ClaimManagementSystem.UI.Claim;
 
+import ClaimManagementSystem.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
 
 import java.util.Scanner;
@@ -12,9 +13,10 @@ public class ClaimPage {
 
     private static void displayOptions() {
         System.out.println("What do you want to do with claims");
-        System.out.println("1. Add Claim");
-        System.out.println("2. Update Claim");
-        System.out.println("3. Delete Claim");
+        System.out.println("1. View Claim");
+        System.out.println("2. Add Claim");
+        System.out.println("3. Update Claim");
+        System.out.println("4. Delete Claim");
         System.out.println("0. Go Back");
         System.out.print("Enter your choice: ");
 
@@ -23,12 +25,16 @@ public class ClaimPage {
 
         switch (choice) {
             case "1":
-                AddClaim.run();
+                ClaimSystem.displayClaims();
+                displayOptions();
                 break;
             case "2":
-                UpdateClaim.run();
+                AddClaim.run();
                 break;
             case "3":
+                UpdateClaim.run();
+                break;
+            case "4":
                 DeleteClaim.run();
                 break;
             case "0":

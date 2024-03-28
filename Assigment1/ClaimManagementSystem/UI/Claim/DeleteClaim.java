@@ -24,11 +24,6 @@ public class DeleteClaim {
         }
     }
 
-
-//    private static void deleteClaim(Claim claim) {
-//
-//    }
-
     private static Claim getClaimId(Scanner scanner) {
         while (true) {
             System.out.println("Enter the claim id that you want to delete:   ('q' to exit)");
