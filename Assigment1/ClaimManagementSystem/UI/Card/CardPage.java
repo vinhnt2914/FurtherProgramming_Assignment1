@@ -1,9 +1,6 @@
 package ClaimManagementSystem.UI.Card;
 
-import ClaimManagementSystem.ClaimSystem;
-import ClaimManagementSystem.UI.Customer.AddCustomer;
-import ClaimManagementSystem.UI.Customer.DeleteCustomer;
-import ClaimManagementSystem.UI.HomePage;
+import ClaimManagementSystem.Utility.ClaimSystem;
 
 import java.util.Scanner;
 

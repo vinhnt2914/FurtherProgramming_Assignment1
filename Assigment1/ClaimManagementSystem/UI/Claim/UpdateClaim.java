@@ -1,9 +1,10 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
 import ClaimManagementSystem.UI.HomePage;
+import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -20,6 +21,7 @@ public class UpdateClaim {
     public static void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println("Which claim do you want to update?");
             System.out.println("Enter claim id: ('q' to exit)");
             String id = scanner.nextLine();
             // Return to homepage
@@ -58,28 +60,28 @@ public class UpdateClaim {
 
             switch (choice) {
                 case "1":
-                    updateClaimDate(claim, getClaimDate(scanner));
+                    new ClaimService().updateClaimDate(claim, getClaimDate(scanner));
                     break;
                 case "2":
-                    updateInsuredPerson(claim, getInsuredPerson(scanner));
+                    new ClaimService().updateInsuredPerson(claim, getInsuredPerson(scanner));
                     break;
                 case "3":
-                    updateExamDate(claim, getExamDate(scanner));
+                    new ClaimService().updateExamDate(claim, getExamDate(scanner));
                     break;
                 case "4":
-                    updateClaimAmount(claim, getClaimAmount(scanner));
+                    new ClaimService().updateClaimAmount(claim, getClaimAmount(scanner));
                     break;
                 case "5":
-                    updateClaimStatus(claim, getClaimStatus(scanner));
+                    new ClaimService().updateClaimStatus(claim, getClaimStatus(scanner));
                     break;
                 case "6":
-                    updateBankName(claim, getBankName(scanner));
+                    new ClaimService().updateBankName(claim, getBankName(scanner));
                     break;
                 case "7":
-                    updateReceiver(claim, getReceiverName(scanner));
+                    new ClaimService().updateReceiver(claim, getReceiverName(scanner));
                     break;
                 case "8":
-                    updateBankNumber(claim, getBankNumber(scanner));
+                    new ClaimService().updateBankNumber(claim, getBankNumber(scanner));
                     break;
                 case "0":
                     exit = true; // Set exit to true to exit the loop
@@ -105,11 +107,7 @@ public class UpdateClaim {
         swapClaim(claim, newInsuredPerson);
     }
 
-    /**
-     * <p>
-     *     Helper function for swapping claim between 2 customers
-     * </p>
-     * */
+
     private static void swapClaim(Claim claim, Customer newInsuredPerson) {
         claim.getInsuredPerson().removeClaim(claim);
         claim.setInsuredPerson(newInsuredPerson);

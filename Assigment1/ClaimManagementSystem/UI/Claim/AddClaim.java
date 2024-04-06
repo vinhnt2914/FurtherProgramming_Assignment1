@@ -1,10 +1,8 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.ClaimSystem;
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
-import ClaimManagementSystem.UI.HomePage;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;
@@ -51,7 +49,6 @@ public class AddClaim {
                 if (DataManager.getClaims().containsKey(id)) {
                     System.out.println("There is already a claim with this id!");
                 } else return id;
-
             } else {
                 System.out.println("ID is invalid. Please enter a valid claim ID.");
             }

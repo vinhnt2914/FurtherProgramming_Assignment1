@@ -1,6 +1,6 @@
 package ClaimManagementSystem.UI.Customer;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
 import ClaimManagementSystem.Model.InsuranceCard;

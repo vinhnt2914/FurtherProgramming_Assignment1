@@ -1,6 +1,6 @@
 package ClaimManagementSystem.UI.Customer;
 
-import ClaimManagementSystem.ClaimSystem;
+import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
 
 import java.util.Scanner;

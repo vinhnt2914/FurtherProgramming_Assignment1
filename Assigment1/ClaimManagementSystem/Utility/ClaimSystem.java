@@ -1,13 +1,13 @@
-package ClaimManagementSystem;
+package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.UI.HomePage;
 import ClaimManagementSystem.Utility.ClaimService;
-
-import java.util.ArrayList;
-import java.util.List;
+import ClaimManagementSystem.Utility.DataManager;
 
 public class ClaimSystem {
+
+    private static final ClaimService claimService = new ClaimService();
 
     public static void run() {
         HomePage.run();
@@ -46,7 +46,6 @@ public class ClaimSystem {
     }
 
     public static void displayClaims() {
-        ClaimService claimService = new ClaimService();
         System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                 "ID", "Claim Date", "Insured Person", "Card Number",
                 "Exam Date", "Documents", "Claim Amount", "Status",
@@ -58,6 +57,21 @@ public class ClaimSystem {
                     claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
                     claim.getBankName(), claim.getReceiverName(), claim.getBankNumber());
         }
+        System.out.println();
+    }
+
+    public static void displayOneClaim(String id) {
+        Claim claim = claimService.getOne(id);
+        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+                "ID", "Claim Date", "Insured Person", "Card Number",
+                "Exam Date", "Documents", "Claim Amount", "Status",
+                "Bank", "Receiver", "Bank Number");
+
+        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+                claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
+                claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
+                claim.getBankName(), claim.getReceiverName(), claim.getBankNumber());
+
         System.out.println();
     }
 

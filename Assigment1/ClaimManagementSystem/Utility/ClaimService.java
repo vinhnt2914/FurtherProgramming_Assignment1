@@ -1,12 +1,12 @@
 package ClaimManagementSystem.Utility;
 
-import ClaimManagementSystem.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.ClaimProcessManager;
+import ClaimManagementSystem.Model.Customer;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ClaimService implements ClaimProcessManager {
 
@@ -31,6 +31,64 @@ public class ClaimService implements ClaimProcessManager {
         // Overwrite the data
         DataManager.overWriteCustomer();
         DataManager.overWriteClaim();
+    }
+
+    @Override
+    public void updateClaimDate(Claim claim, LocalDate newDate) {
+        claim.setClaimDate(newDate);
+    }
+
+    @Override
+    public void updateInsuredPerson(Claim claim, Customer newInsuredPerson) {
+        swapClaim(claim, newInsuredPerson);
+    }
+
+    /**
+     * <p>
+     *     Helper function for swapping claim between 2 customers
+     * </p>
+     * */
+    private void swapClaim(Claim claim, Customer newInsuredPerson) {
+        claim.getInsuredPerson().removeClaim(claim);
+        claim.setInsuredPerson(newInsuredPerson);
+        newInsuredPerson.addClaim(claim);
+        // Update the card number in claim to new insured person's card
+        updateCardNumber(claim, newInsuredPerson.getInsuranceCard().getCardNumber());
+    }
+
+    @Override
+    public void updateCardNumber(Claim claim, String newCardNumber) {
+        claim.setCardNumber(newCardNumber);
+    }
+
+    @Override
+    public void updateExamDate(Claim claim, LocalDate newDate) {
+        claim.setExamDate(newDate);
+    }
+
+    @Override
+    public void updateClaimAmount(Claim claim, double newClaimAmount) {
+        claim.setClaimAmount(newClaimAmount);
+    }
+
+    @Override
+    public void updateClaimStatus(Claim claim, Claim.ClaimStatus newStatus) {
+        claim.setStatus(newStatus);
+    }
+
+    @Override
+    public void updateBankName(Claim claim, String newBankName) {
+        claim.setBankName(newBankName);
+    }
+
+    @Override
+    public void updateReceiver(Claim claim, String newReceiver) {
+        claim.setReceiverName(newReceiver);
+    }
+
+    @Override
+    public void updateBankNumber(Claim claim, String newBankNumber) {
+        claim.setBankNumber(newBankNumber);
     }
 
     @Override

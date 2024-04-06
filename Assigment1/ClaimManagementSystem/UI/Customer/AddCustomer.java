@@ -1,9 +1,8 @@
 package ClaimManagementSystem.UI.Customer;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.*;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;

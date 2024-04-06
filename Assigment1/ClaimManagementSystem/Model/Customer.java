@@ -1,7 +1,5 @@
 package ClaimManagementSystem.Model;
 
-import ClaimManagementSystem.DataManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,14 +38,6 @@ public abstract class Customer {
 
     public List<Claim> getClaims() {
         return claims;
-    }
-
-    public List<String> getClaimIDs() {
-        List<String> ids = new ArrayList<>();
-        for (Claim claim : claims) {
-            ids.add(claim.getId());
-        }
-        return ids;
     }
 
     @Override

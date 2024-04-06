@@ -1,8 +1,7 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
-import ClaimManagementSystem.Model.Customer;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.util.Scanner;

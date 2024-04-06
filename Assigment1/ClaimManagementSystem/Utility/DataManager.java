@@ -1,4 +1,4 @@
-package ClaimManagementSystem;
+package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.Utility.IDComparator;
@@ -79,24 +79,6 @@ public class DataManager{
         }
         return null;
     }
-
-//    public static void writeCustomer(Customer customer) {
-//        try {
-//            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH, true));
-//            StringBuilder content = new StringBuilder();
-//            if (customer instanceof PolicyHolder) {
-//                content.append("PH,");
-//            } else if (customer instanceof Dependant) {
-//                content.append("D,");
-//            }
-//            content.append(customer.toData());
-//            content.append("\n");
-//            bufferedWriter.write(content.toString());
-//            bufferedWriter.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public static void overWriteCustomer() {
         try {

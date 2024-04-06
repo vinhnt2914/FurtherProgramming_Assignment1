@@ -1,6 +1,6 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.ClaimSystem;
+import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
 
 import java.util.Scanner;
@@ -25,7 +25,7 @@ public class ClaimPage {
 
         switch (choice) {
             case "1":
-                ClaimSystem.displayClaims();
+                ViewClaim.run();
                 displayOptions();
                 break;
             case "2":

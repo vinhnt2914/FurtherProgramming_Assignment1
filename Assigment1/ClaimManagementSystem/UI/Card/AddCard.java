@@ -1,10 +1,8 @@
 package ClaimManagementSystem.UI.Card;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Customer;
-import ClaimManagementSystem.Model.Dependant;
 import ClaimManagementSystem.Model.InsuranceCard;
-import ClaimManagementSystem.Model.PolicyHolder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
