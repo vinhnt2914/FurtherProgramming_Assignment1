@@ -7,13 +7,16 @@ import ClaimManagementSystem.Model.Customer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class ClaimService implements ClaimProcessManager {
 
     @Override
     public void add(Claim claim) {
         // Add the claim to system and database
         DataManager.getClaims().put(claim.getId(), claim);
+        DataManager.writeClaim(claim);
     }
 
     /**
@@ -89,6 +92,11 @@ public class ClaimService implements ClaimProcessManager {
     @Override
     public void updateBankNumber(Claim claim, String newBankNumber) {
         claim.setBankNumber(newBankNumber);
+    }
+
+    @Override
+    public void updateDocuments(Claim claim, List<String> newDocuments) {
+        if (!newDocuments.isEmpty()) claim.setDocuments(newDocuments);
     }
 
     @Override

@@ -6,7 +6,9 @@ import ClaimManagementSystem.Model.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class AddCustomer {
     public static void run() {
         displayOptions();

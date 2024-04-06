@@ -7,7 +7,9 @@ import ClaimManagementSystem.Model.InsuranceCard;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class AddCard {
     public static void run() {
         displayOptions();

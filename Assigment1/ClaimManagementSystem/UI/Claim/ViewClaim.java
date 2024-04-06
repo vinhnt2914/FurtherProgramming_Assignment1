@@ -1,9 +1,11 @@
 package ClaimManagementSystem.UI.Claim;
+
 import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.Utility.DataManager;
-
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class ViewClaim {
     public static void run() {
         displayOptions();

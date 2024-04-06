@@ -1,10 +1,10 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
-
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class ClaimPage {
 
     public static void run() {

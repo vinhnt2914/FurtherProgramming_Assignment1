@@ -10,7 +10,9 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class AddClaim {
     public static void run() {
         displayOptions();

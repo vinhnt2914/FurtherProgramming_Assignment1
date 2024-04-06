@@ -5,7 +5,9 @@ import ClaimManagementSystem.Model.Dependant;
 import ClaimManagementSystem.Model.PolicyHolder;
 
 import java.util.Comparator;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class CustomerComparator implements Comparator<Customer> {
     @Override
     public int compare(Customer c1, Customer c2) {

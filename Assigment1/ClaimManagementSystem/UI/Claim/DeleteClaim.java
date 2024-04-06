@@ -5,7 +5,9 @@ import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class DeleteClaim {
     public static void run() {
         displayOptions();

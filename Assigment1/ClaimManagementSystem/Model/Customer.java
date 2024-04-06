@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public abstract class Customer {
     private String id;
     private String name;
@@ -98,10 +101,6 @@ public abstract class Customer {
      * */
     public void removeClaim(Claim claim) {
         claims.remove(claim);
-    }
-
-    public void removeCard(InsuranceCard insuranceCard) {
-        setInsuranceCard(null);
     }
 
 

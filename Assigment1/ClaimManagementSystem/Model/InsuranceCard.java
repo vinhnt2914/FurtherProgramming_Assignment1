@@ -1,7 +1,9 @@
 package ClaimManagementSystem.Model;
 
 import java.time.LocalDate;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class InsuranceCard {
     private String cardNumber;
     private Customer cardHolder;

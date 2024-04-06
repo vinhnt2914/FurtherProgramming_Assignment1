@@ -4,7 +4,9 @@ import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class CustomerPage {
     public static void run() {
         displayOptions();

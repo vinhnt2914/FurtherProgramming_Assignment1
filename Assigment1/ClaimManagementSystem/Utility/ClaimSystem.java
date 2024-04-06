@@ -2,9 +2,10 @@ package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.UI.HomePage;
-import ClaimManagementSystem.Utility.ClaimService;
-import ClaimManagementSystem.Utility.DataManager;
 
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class ClaimSystem {
 
     private static final ClaimService claimService = new ClaimService();

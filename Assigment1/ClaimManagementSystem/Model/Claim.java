@@ -1,12 +1,11 @@
 package ClaimManagementSystem.Model;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class Claim {
     private String id;
     private LocalDate claimDate;
@@ -159,7 +158,7 @@ public class Claim {
         // Remove the trailing comma if there are documents present
         if (!documentsString.isEmpty()) {
             documentsString.deleteCharAt(documentsString.length() - 1);
-        }
+        } else documentsString.append("none");
 
         return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s",
                 id,

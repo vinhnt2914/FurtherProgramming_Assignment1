@@ -8,7 +8,9 @@ import ClaimManagementSystem.Model.PolicyHolder;
 
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class DeleteCustomer {
     public static void run() {
         displayOptions();

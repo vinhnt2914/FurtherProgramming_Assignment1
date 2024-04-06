@@ -3,12 +3,13 @@ package ClaimManagementSystem.UI.Card;
 import ClaimManagementSystem.Utility.ClaimSystem;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class CardPage {
     public static void run() {
         displayOptions();
     }
-
     private static void displayOptions() {
         System.out.println("What do you want to do with insurance cards?");
         System.out.println("1. Add a card");

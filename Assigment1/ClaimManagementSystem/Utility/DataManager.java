@@ -1,14 +1,14 @@
 package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
-import ClaimManagementSystem.Utility.IDComparator;
-import ClaimManagementSystem.Utility.CustomerComparator;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class DataManager{
 
     private static TreeSet<Customer> customers = new TreeSet<>(new CustomerComparator());
@@ -235,6 +235,12 @@ public class DataManager{
         int i = 5;
         List<String> documents = new ArrayList<>();
         while (i < str.length) {
+            // If there are no documents
+            if (str[i].equals("none")) {
+                i++;
+                break;
+            }
+
             if (str[i].endsWith(".pdf")) {
                 documents.add(str[i]);
                 i++;

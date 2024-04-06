@@ -1,11 +1,10 @@
 package ClaimManagementSystem.Model;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-
 import java.util.List;
-import java.util.Map;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public interface ClaimProcessManager {
     void add(Claim claim);
     void delete(Claim claim);
@@ -27,6 +26,7 @@ public interface ClaimProcessManager {
 
     void updateBankNumber(Claim claim, String newBankNumber);
 
+    void updateDocuments(Claim claim, List<String> newDocuments);
     Claim getOne(String id);
     List<Claim> getAll();
 }

@@ -1,12 +1,13 @@
 package ClaimManagementSystem.UI;
 
 import ClaimManagementSystem.UI.Card.CardPage;
-import ClaimManagementSystem.UI.Claim.AddClaim;
 import ClaimManagementSystem.UI.Claim.ClaimPage;
 import ClaimManagementSystem.UI.Customer.CustomerPage;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class HomePage {
     public static void run() {
         System.out.println("Welcome to the Claim Management System!");

@@ -8,15 +8,13 @@ import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
- * <p>
- *     Updating a claim work by accessing the claim in the system data, and
- *     directly modify it. Then overwrite all data back into text file.
- * </p>
- *
- * */
+ * @author Nguyen The Vinh - s3979366
+ */
 public class UpdateClaim {
     public static void run() {
         Scanner scanner = new Scanner(System.in);
@@ -52,6 +50,7 @@ public class UpdateClaim {
             System.out.println("6. Bank Name");
             System.out.println("7. Receiver Name");
             System.out.println("8. Bank Number");
+            System.out.println("9. Document");
             System.out.println("0. Exit");
             System.out.println();
             System.out.print("Enter your choice: ");
@@ -83,8 +82,12 @@ public class UpdateClaim {
                 case "8":
                     new ClaimService().updateBankNumber(claim, getBankNumber(scanner));
                     break;
+                case "9":
+                    new ClaimService().updateDocuments(claim, getDocuments(scanner));
+                    break;
                 case "0":
                     exit = true; // Set exit to true to exit the loop
+                    HomePage.run();
                     break;
                 default:
                     System.out.println();
@@ -95,54 +98,6 @@ public class UpdateClaim {
             DataManager.overWriteClaim();
             DataManager.overWriteCustomer();
         }
-    }
-
-
-    private static void updateClaimDate(Claim claim, LocalDate newDate) {
-        claim.setClaimDate(newDate);
-    }
-
-    private static void updateInsuredPerson(Claim claim, Customer newInsuredPerson) {
-        // Swap the claim from old insured person to new insured person
-        swapClaim(claim, newInsuredPerson);
-    }
-
-
-    private static void swapClaim(Claim claim, Customer newInsuredPerson) {
-        claim.getInsuredPerson().removeClaim(claim);
-        claim.setInsuredPerson(newInsuredPerson);
-        newInsuredPerson.addClaim(claim);
-        // Update the card number in claim to new insured person's card
-        updateCardNumber(claim, newInsuredPerson.getInsuranceCard().getCardNumber());
-    }
-
-
-    private static void updateCardNumber(Claim claim, String newCardNumber) {
-        claim.setCardNumber(newCardNumber);
-    }
-
-    private static void updateExamDate(Claim claim, LocalDate newDate) {
-        claim.setExamDate(newDate);
-    }
-
-    private static void updateClaimAmount(Claim claim, double newClaimAmount) {
-        claim.setClaimAmount(newClaimAmount);
-    }
-
-    private static void updateClaimStatus(Claim claim, Claim.ClaimStatus newStatus) {
-        claim.setStatus(newStatus);
-    }
-
-    private static void updateBankName(Claim claim, String newBankName) {
-        claim.setBankName(newBankName);
-    }
-
-    private static void updateReceiver(Claim claim, String newReceiver) {
-        claim.setReceiverName(newReceiver);
-    }
-
-    private static void updateBankNumber(Claim claim, String newBankNumber) {
-        claim.setBankNumber(newBankNumber);
     }
 
     private static LocalDate getClaimDate(Scanner scanner) {
@@ -173,25 +128,6 @@ public class UpdateClaim {
                     System.out.println("This customer doesn't have an insurance card. They are not eligible for this claim!");
                 } else return customer;
             } else System.out.println("Wrong id format. Must be c-number (7 digits)");
-        }
-    }
-
-    private static String getCardNumber(Scanner scanner, Customer customer) {
-        while (true) {
-            System.out.println("Enter card number:");
-            String cardNumber = scanner.nextLine();
-            if (cardNumber.matches("^\\d{10}$")) {
-                String customerCardNum = customer.getInsuranceCard().getCardNumber();
-                // If the customer has a card with the input number
-                if (customerCardNum.equals(cardNumber)) {
-                    return cardNumber;
-                }
-                else {
-                    System.out.println("The customer doesn't has any card with this number.");
-                }
-            } else {
-                System.out.println("Invalid card number format. Please enter a 10-digit card number.");
-            }
         }
     }
 
@@ -265,5 +201,21 @@ public class UpdateClaim {
             }
         }
     }
+
+    private static List<String> getDocuments(Scanner scanner) {
+        List<String> documents = new ArrayList<>();
+        while (true) {
+            System.out.println("Enter document: ('q' to exit)");
+            String document = scanner.nextLine();
+            if (document.equals("q")) return documents;
+            if (document.matches("^f-\\d{10}_\\d{10}_\\w+\\.pdf$")) {
+                documents.add(document);
+            } else {
+                System.out.println("Invalid document format. Please follow the format: 'ClaimID_CardNumber_documentName.pdf'");
+            }
+        }
+    }
+
+
 
 }
