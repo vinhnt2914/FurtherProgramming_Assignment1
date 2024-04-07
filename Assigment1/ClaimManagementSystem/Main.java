@@ -7,19 +7,12 @@ import ClaimManagementSystem.Utility.DataManager;
  */
 public class Main {
     public static void main(String[] args) {
-
         // Load data
         DataManager.readCustomer();
         DataManager.readInsuranceCard();
         DataManager.readClaim();
 
-        ClaimSystem.displayCustomers();
-        ClaimSystem.displayCards();
-        ClaimSystem.displayClaims();
-
         ClaimSystem.run();
-
-
     }
 
 }

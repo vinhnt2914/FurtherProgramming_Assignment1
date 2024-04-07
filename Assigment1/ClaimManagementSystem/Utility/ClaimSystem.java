@@ -3,6 +3,11 @@ package ClaimManagementSystem.Utility;
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.UI.HomePage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * @author Nguyen The Vinh - s3979366
  */
@@ -19,7 +24,10 @@ public class ClaimSystem {
         System.out.println();
         System.out.printf("%-20s %-30s %-20s %-20s %-20s\n", "ID", "Name", "Insurance Card", "Claims", "Dependant");
 
-        for (Customer customer : DataManager.getCustomers()) {
+        List<Customer> sortedCustomer = new ArrayList<>(DataManager.getCustomers());
+        sortedCustomer.sort(Comparator.comparing(Customer::getId));
+
+        for (Customer customer : sortedCustomer) {
             System.out.printf("%-20s %-30s %-20s %-20s %-20s\n",
                     customer.getId(),
                     customer.getName(),

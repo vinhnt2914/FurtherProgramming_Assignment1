@@ -1,5 +1,6 @@
 package ClaimManagementSystem.UI.Card;
 
+import ClaimManagementSystem.UI.HomePage;
 import ClaimManagementSystem.Utility.ClaimSystem;
 
 import java.util.Scanner;
@@ -28,8 +29,8 @@ public class CardPage {
                 ClaimSystem.displayCards();
                 displayOptions();
                 break;
-            case "3":
-
+            case "0":
+                HomePage.run();
                 break;
             default:
                 System.out.println();

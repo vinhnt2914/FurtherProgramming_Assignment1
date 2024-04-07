@@ -12,8 +12,8 @@ import java.util.*;
 public class DataManager{
 
     private static TreeSet<Customer> customers = new TreeSet<>(new CustomerComparator());
-    private static TreeMap<String, InsuranceCard> insuranceCards = new TreeMap<>(new IDComparator());
-    private static TreeMap<String, Claim> claims = new TreeMap<>(new IDComparator());
+    private static TreeMap<String, InsuranceCard> insuranceCards = new TreeMap<>(Comparator.naturalOrder());
+    private static TreeMap<String, Claim> claims = new TreeMap<>(Comparator.naturalOrder());
     private static final String CUSTOMER_FILE_PATH = "Assigment1/ClaimManagementSystem/Data/customers.txt";
     private static final String INSURANCE_FILE_PATH = "Assigment1/ClaimManagementSystem/Data/insurances.txt";
     private static final String CLAIM_FILE_PATH = "Assigment1/ClaimManagementSystem/Data/claims.txt";
@@ -228,7 +228,6 @@ public class DataManager{
         LocalDate claimDate = LocalDate.parse(str[1]);
         Customer insuredPerson = getCustomer(str[2]);
         assert insuredPerson != null;
-        System.out.println("Insured person for claim: " + id + " is " + insuredPerson.getId());
         String cardNumber = str[3];
         LocalDate examDate = LocalDate.parse(str[4]);
 
