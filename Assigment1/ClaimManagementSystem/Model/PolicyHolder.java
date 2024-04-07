@@ -2,7 +2,9 @@ package ClaimManagementSystem.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class PolicyHolder extends Customer{
     private List<Dependant> dependantList;
 
@@ -25,10 +27,6 @@ public class PolicyHolder extends Customer{
             ids.add(d.getId());
         }
         return ids;
-    }
-
-    public boolean hasDependant(Dependant dependant) {
-        return dependantList.contains(dependant);
     }
 
     @Override

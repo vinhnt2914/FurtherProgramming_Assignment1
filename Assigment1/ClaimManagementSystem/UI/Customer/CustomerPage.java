@@ -1,9 +1,12 @@
 package ClaimManagementSystem.UI.Customer;
 
+import ClaimManagementSystem.Utility.ClaimSystem;
 import ClaimManagementSystem.UI.HomePage;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class CustomerPage {
     public static void run() {
         displayOptions();
@@ -11,9 +14,10 @@ public class CustomerPage {
 
     private static void displayOptions() {
         System.out.println("Please select an option:");
+        System.out.println("1. View customers");
         System.out.println("1. Add a customer");
         System.out.println("2. Delete a customer");
-        System.out.println("3. Go back");
+        System.out.println("0. Go back");
         System.out.print("Enter your choice: ");
 
         Scanner scanner = new Scanner(System.in);
@@ -21,12 +25,16 @@ public class CustomerPage {
 
         switch (choice) {
             case "1":
-                AddCustomer.run();
+                ClaimSystem.displayCustomers();
+                displayOptions();
                 break;
             case "2":
-                DeleteCustomer.run();
+                AddCustomer.run();
                 break;
             case "3":
+                DeleteCustomer.run();
+                break;
+            case "0":
                 HomePage.run();
                 break;
 

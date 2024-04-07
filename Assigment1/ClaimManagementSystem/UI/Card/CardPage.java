@@ -1,21 +1,20 @@
 package ClaimManagementSystem.UI.Card;
 
-import ClaimManagementSystem.UI.Customer.AddCustomer;
-import ClaimManagementSystem.UI.Customer.DeleteCustomer;
-import ClaimManagementSystem.UI.HomePage;
+import ClaimManagementSystem.Utility.ClaimSystem;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class CardPage {
     public static void run() {
         displayOptions();
     }
-
     private static void displayOptions() {
         System.out.println("What do you want to do with insurance cards?");
         System.out.println("1. Add a card");
-        System.out.println("2. Delete a card");
-        System.out.println("3. Go back");
+        System.out.println("2. View insurance cards");
+        System.out.println("0. Go back");
         System.out.print("Enter your choice: ");
 
         Scanner scanner = new Scanner(System.in);
@@ -26,7 +25,8 @@ public class CardPage {
                 AddCard.run();
                 break;
             case "2":
-
+                ClaimSystem.displayCards();
+                displayOptions();
                 break;
             case "3":
 

@@ -1,14 +1,16 @@
 package ClaimManagementSystem.Model;
 
 import java.time.LocalDate;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class InsuranceCard {
     private String cardNumber;
     private Customer cardHolder;
-    private PolicyHolder policyOwner;
+    private String policyOwner;
     private LocalDate expirationDate;
 
-    public InsuranceCard(String cardNumber, Customer cardHolder, PolicyHolder policyOwner, LocalDate expirationDate) {
+    public InsuranceCard(String cardNumber, Customer cardHolder, String policyOwner, LocalDate expirationDate) {
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
         this.policyOwner = policyOwner;
@@ -24,7 +26,7 @@ public class InsuranceCard {
         return cardHolder;
     }
 
-    public PolicyHolder getPolicyOwner() {
+    public String getPolicyOwner() {
         return policyOwner;
     }
 
@@ -39,14 +41,14 @@ public class InsuranceCard {
                         "  - Card Holder: %s\n" +
                         "  - Policy Owner: %s\n" +
                         "  - Expiration Date: %s",
-                cardNumber, cardHolder.getName(), policyOwner.getName(), expirationDate);
+                cardNumber, cardHolder.getName(), policyOwner, expirationDate);
     }
 
     public String toData() {
         return String.format("%s,%s,%s,%s",
                 cardNumber,
                 cardHolder.getId(),
-                policyOwner.getId(),
+                policyOwner,
                 expirationDate);
     }
 

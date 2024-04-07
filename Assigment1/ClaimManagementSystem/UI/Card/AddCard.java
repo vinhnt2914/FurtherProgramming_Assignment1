@@ -1,15 +1,15 @@
 package ClaimManagementSystem.UI.Card;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Customer;
-import ClaimManagementSystem.Model.Dependant;
 import ClaimManagementSystem.Model.InsuranceCard;
-import ClaimManagementSystem.Model.PolicyHolder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class AddCard {
     public static void run() {
         displayOptions();
@@ -19,7 +19,7 @@ public class AddCard {
         Scanner scanner = new Scanner(System.in);
         String cardNumber = getCardNumber(scanner);
         Customer cardHolder = getCardHolder(scanner);
-        PolicyHolder policyOwner = getPolicyOwner(scanner, cardHolder);
+        String policyOwner = getPolicyOwner(scanner);
         LocalDate expirationDate = getExpirationDate(scanner);
         InsuranceCard card = new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
         
@@ -71,30 +71,13 @@ public class AddCard {
         }
     }
 
-    private static PolicyHolder getPolicyOwner(Scanner scanner, Customer cardHolder) {
+    private static String getPolicyOwner(Scanner scanner) {
         while (true) {
-            System.out.println("Please enter the policy owner's id:");
-            String id = scanner.nextLine();
-
-            if (id.matches("^c-\\d{7}$")) {
-                try {
-                    PolicyHolder policyOwner = (PolicyHolder) DataManager.getCustomer(id);
-                    if (policyOwner == null) {
-                        System.out.println("There is no customer with this id!");
-                    } else if (cardHolder instanceof Dependant) {
-                        if (!policyOwner.getDependantList().contains(cardHolder)) {
-                            System.out.println("The card holder is a dependant but he/she is not a dependant of the policy owner!");
-                        } else return policyOwner;
-                    // If the cardholder is a policyholder, then the policy owner must be himself
-                    } else if (cardHolder instanceof PolicyHolder) {
-                        if (policyOwner != cardHolder) {
-                            System.out.println("The card holder is a policy holder so the policy owner must also be him/herself");
-                        } else return policyOwner;
-                    }
-                } catch (ClassCastException e) {
-                    System.out.println("This customer is not of policy holder type");
-                }
-            } else System.out.println("Wrong id format. Must be c-number (7 digits)");
+            System.out.println("Please enter the policy owner:");
+            String policyOwner = scanner.nextLine();
+            if (policyOwner.isEmpty()) {
+                System.out.println("Policy owner cannot be empty!");
+            } else return policyOwner;
         }
     }
 

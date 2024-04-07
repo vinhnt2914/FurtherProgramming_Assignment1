@@ -1,12 +1,13 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
-import ClaimManagementSystem.Model.Customer;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class DeleteClaim {
     public static void run() {
         displayOptions();
@@ -23,11 +24,6 @@ public class DeleteClaim {
             new ClaimService().delete(claim);
         }
     }
-
-
-//    private static void deleteClaim(Claim claim) {
-//
-//    }
 
     private static Claim getClaimId(Scanner scanner) {
         while (true) {

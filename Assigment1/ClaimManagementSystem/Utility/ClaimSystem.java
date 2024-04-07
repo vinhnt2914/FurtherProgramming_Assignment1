@@ -1,12 +1,14 @@
-package ClaimManagementSystem;
+package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
 import ClaimManagementSystem.UI.HomePage;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class ClaimSystem {
+
+    private static final ClaimService claimService = new ClaimService();
 
     public static void run() {
         HomePage.run();
@@ -28,13 +30,29 @@ public class ClaimSystem {
         System.out.println();
     }
 
+    public static void displayCards() {
+        System.out.println("CARD DETAILS");
+        System.out.println();
+        System.out.printf("%-20s %-20s %-20s %-20s\n", "Number", "Card Holder", "Policy Owner", "Expiration Date");
+
+        for (InsuranceCard card : DataManager.getInsuranceCards().values()) {
+            System.out.printf("%-20s %-20s %-20s %-20s\n",
+                    card.getCardNumber(),
+                    card.getCardHolder().getId(),
+                    card.getPolicyOwner(),
+                    card.getExpirationDate());
+
+        }
+        System.out.println();
+    }
+
     public static void displayClaims() {
         System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                 "ID", "Claim Date", "Insured Person", "Card Number",
                 "Exam Date", "Documents", "Claim Amount", "Status",
                 "Bank", "Receiver", "Bank Number");
 
-        for (Claim claim : DataManager.getClaims().values()) {
+        for (Claim claim : claimService.getAll()) {
             System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
                     claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
                     claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
@@ -43,11 +61,19 @@ public class ClaimSystem {
         System.out.println();
     }
 
-    private static List<String> getDependantsIDS(PolicyHolder policyHolder) {
-        List<String> ids = new ArrayList<>();
-        for (Dependant d : policyHolder.getDependantList()) {
-            ids.add(d.getId());
-        }
-        return ids;
+    public static void displayOneClaim(String id) {
+        Claim claim = claimService.getOne(id);
+        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+                "ID", "Claim Date", "Insured Person", "Card Number",
+                "Exam Date", "Documents", "Claim Amount", "Status",
+                "Bank", "Receiver", "Bank Number");
+
+        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+                claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
+                claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
+                claim.getBankName(), claim.getReceiverName(), claim.getBankNumber());
+
+        System.out.println();
     }
+
 }

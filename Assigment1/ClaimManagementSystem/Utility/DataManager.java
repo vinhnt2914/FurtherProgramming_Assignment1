@@ -1,14 +1,14 @@
-package ClaimManagementSystem;
+package ClaimManagementSystem.Utility;
 
 import ClaimManagementSystem.Model.*;
-import ClaimManagementSystem.Utility.IDComparator;
-import ClaimManagementSystem.Utility.CustomerComparator;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class DataManager{
 
     private static TreeSet<Customer> customers = new TreeSet<>(new CustomerComparator());
@@ -80,24 +80,6 @@ public class DataManager{
         return null;
     }
 
-//    public static void writeCustomer(Customer customer) {
-//        try {
-//            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH, true));
-//            StringBuilder content = new StringBuilder();
-//            if (customer instanceof PolicyHolder) {
-//                content.append("PH,");
-//            } else if (customer instanceof Dependant) {
-//                content.append("D,");
-//            }
-//            content.append(customer.toData());
-//            content.append("\n");
-//            bufferedWriter.write(content.toString());
-//            bufferedWriter.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public static void overWriteCustomer() {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CUSTOMER_FILE_PATH));
@@ -164,20 +146,9 @@ public class DataManager{
         try {
             String cardNumber = str[0];
             Customer cardHolder = getCustomer(str[1]);
-            PolicyHolder policyOwner = (PolicyHolder) getCustomer(str[2]);
+            String policyOwner = str[2];
             LocalDate expirationDate = LocalDate.parse(str[3]);
 
-            // If the cardholder is a dependant and he/she is not inside the policy owner's list of dependant
-            if (cardHolder instanceof Dependant && policyOwner != null) {
-                if (!policyOwner.getDependantList().contains(cardHolder)) {
-                    throw new IllegalArgumentException("Error creating InsuranceCard: The dependant must be in the policy owner's list of dependants");
-                }
-                // If the cardholder is a policyholder, then the policy owner must be himself
-            } else if (cardHolder instanceof PolicyHolder) {
-                if (policyOwner != cardHolder) {
-                    throw new IllegalArgumentException("Error creating InsuranceCard: The card holder is a PolicyHolder, so the policy owner should match");
-                }
-            }
 
             assert cardHolder != null;
             return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
@@ -264,6 +235,12 @@ public class DataManager{
         int i = 5;
         List<String> documents = new ArrayList<>();
         while (i < str.length) {
+            // If there are no documents
+            if (str[i].equals("none")) {
+                i++;
+                break;
+            }
+
             if (str[i].endsWith(".pdf")) {
                 documents.add(str[i]);
                 i++;

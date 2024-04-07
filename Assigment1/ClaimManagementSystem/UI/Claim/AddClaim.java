@@ -1,10 +1,8 @@
 package ClaimManagementSystem.UI.Claim;
 
-import ClaimManagementSystem.ClaimSystem;
-import ClaimManagementSystem.DataManager;
+import ClaimManagementSystem.Utility.DataManager;
 import ClaimManagementSystem.Model.Claim;
 import ClaimManagementSystem.Model.Customer;
-import ClaimManagementSystem.UI.HomePage;
 import ClaimManagementSystem.Utility.ClaimService;
 
 import java.time.LocalDate;
@@ -12,7 +10,9 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * @author Nguyen The Vinh - s3979366
+ */
 public class AddClaim {
     public static void run() {
         displayOptions();
@@ -40,20 +40,6 @@ public class AddClaim {
         // Add the claim into system data.
         new ClaimService().add(claim);
         ClaimPage.run();
-//        DataManager.getClaims().put(claimID, claim);
-//        ClaimSystem.displayClaims();
-
-//        HomePage.run();
-
-//        System.out.println("Please enter the customer id that you want to add claims:");
-//
-//        Scanner scanner = new Scanner(System.in);
-//
-//        if (DataManager.getCustomer(customerID) != null) {
-//
-//        } else {
-//            System.out.println("This customer doesn't exists!");
-//        }
     }
 
     private static String getId(Scanner scanner) {
@@ -65,7 +51,6 @@ public class AddClaim {
                 if (DataManager.getClaims().containsKey(id)) {
                     System.out.println("There is already a claim with this id!");
                 } else return id;
-
             } else {
                 System.out.println("ID is invalid. Please enter a valid claim ID.");
             }
