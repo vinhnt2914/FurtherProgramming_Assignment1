@@ -15,15 +15,24 @@ public class AddCard {
         displayOptions();
     }
 
+    private static void exit() {
+        CardPage.run();
+    }
+
     private static void displayOptions() {
+        // Get user inputs and create card
         Scanner scanner = new Scanner(System.in);
         String cardNumber = getCardNumber(scanner);
         Customer cardHolder = getCardHolder(scanner);
         String policyOwner = getPolicyOwner(scanner);
         LocalDate expirationDate = getExpirationDate(scanner);
         InsuranceCard card = new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
-        
+
+        // add card to data
         addCard(card);
+
+        // Back to Card Page
+        exit();
     }
 
     private static void addCard(InsuranceCard card) {

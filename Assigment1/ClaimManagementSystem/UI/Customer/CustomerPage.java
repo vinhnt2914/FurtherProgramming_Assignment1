@@ -15,8 +15,8 @@ public class CustomerPage {
     private static void displayOptions() {
         System.out.println("Please select an option:");
         System.out.println("1. View customers");
-        System.out.println("1. Add a customer");
-        System.out.println("2. Delete a customer");
+        System.out.println("2. Add a customer");
+        System.out.println("3. Delete a customer");
         System.out.println("0. Go back");
         System.out.print("Enter your choice: ");
 

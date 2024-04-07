@@ -20,10 +20,14 @@ public class DeleteClaim {
     private static void displayOptions() {
         Scanner scanner = new Scanner(System.in);
         Claim claim = getClaimId(scanner);
+
         if (claim != null) {
             new ClaimService().delete(claim);
         }
+
+        exit();
     }
+
 
     private static Claim getClaimId(Scanner scanner) {
         while (true) {

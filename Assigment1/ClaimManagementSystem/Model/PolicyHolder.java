@@ -21,6 +21,10 @@ public class PolicyHolder extends Customer{
         return dependantList;
     }
 
+    public void setDependantList(List<Dependant> dependantList) {
+        this.dependantList = dependantList;
+    }
+
     public List<String> getDependantsIDS() {
         List<String> ids = new ArrayList<>();
         for (Dependant d : dependantList) {

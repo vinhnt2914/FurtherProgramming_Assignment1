@@ -5,6 +5,8 @@ import ClaimManagementSystem.Model.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 /**
  * @author Nguyen The Vinh - s3979366
@@ -25,30 +27,26 @@ public class AddCustomer {
         String name = getCustomerName(scanner);
 
         // Decide what type of customer to create
-        Customer customer;
-        if (role.equals("D")) customer = new Dependant(id, name);
-        else customer = new PolicyHolder(id, name);
-
-        // Execute getInsuranceCard and set the customer's card
-        InsuranceCard card = getInsuranceCard(scanner, customer);
-        customer.setInsuranceCard(card);
-        DataManager.getCustomers().add(customer);
-        DataManager.overWriteCustomer();
-
-
-        // If the customer has no card, then don't add to a database
-        if (card != null) {
-            DataManager.getInsuranceCards().put(card.getCardNumber(), card);
-            DataManager.writeInsuranceCard(card);
+        if (role.equals("D")) {
+            Dependant dependant = new Dependant(id, name);
+            DataManager.getCustomers().add(dependant);
+            getPolicyHolder(scanner).addDependant(dependant);
+        }
+        else {
+            PolicyHolder policyHolder = new PolicyHolder(id, name);
+            policyHolder.setDependantList(getDependants(scanner));
+            DataManager.getCustomers().add(policyHolder);
         }
 
+        DataManager.overWriteCustomer();
 
+        exit();
     }
 
     private static String getCustomerRole(Scanner scanner) {
         while (true) {
             System.out.println("Is this customer a dependant or a policy holder? ('q' to exit)");
-            System.out.println("1. Dependant ");
+            System.out.println("1. Dependant");
             System.out.println("2. Policy Holder");
             String id = scanner.nextLine();
             if (id.equalsIgnoreCase("q")) {
@@ -57,7 +55,7 @@ public class AddCustomer {
             }
             if (id.equalsIgnoreCase("1")) return "D";
             if (id.equalsIgnoreCase("2")) return "PH";
-            System.out.println("⚠️ Invalid choice. Please select a valid option.");
+            System.out.println("Invalid choice. Please select a valid option.");
         }
         return null;
     }
@@ -91,60 +89,47 @@ public class AddCustomer {
         }
     }
 
-
-    /**
-     * <p>
-     *     A customer can be created with id and name only.
-     *     Inputting the card id, will invoke other functions
-     *     to create a new card for this customer. A card alone
-     *     must have a holder and policy owner so it's a must to
-     *     create a new card.
-     * </p>
-     * */
-    private static InsuranceCard getInsuranceCard(Scanner scanner, Customer customer) {
-        System.out.println("Does this customer has an insurance card? (y/n)");
-        String ans = scanner.nextLine();
-        if (ans.equalsIgnoreCase("y")) {
-            return createCardForCustomer(scanner, customer);
-        } else return null;
-    }
-
-    private static InsuranceCard createCardForCustomer(Scanner scanner, Customer customer) {
-        String cardNumber = getCardNumber(scanner);
-        String policyOwner = getPolicyOwner(scanner);
-        LocalDate expirationDate = getExpirationDate(scanner);
-        return new InsuranceCard(cardNumber, customer, policyOwner, expirationDate);
-    }
-
-    private static String getCardNumber(Scanner scanner) {
+    private static PolicyHolder getPolicyHolder(Scanner scanner) {
+        PolicyHolder policyHolder;
         while (true) {
-            System.out.println("Enter card number: ");
-            String cardNumber = scanner.nextLine();
-            if (cardNumber.matches("\\d{10}")) return cardNumber;
-            else System.out.println("Card number name cannot be null");
-        }
-    }
+            System.out.println("Enter policy holder id: ");
+            String id = scanner.nextLine();
 
-    private static String getPolicyOwner(Scanner scanner) {
-        while (true) {
-            System.out.println("Please enter the policy owner:");
-            String policyOwner = scanner.nextLine();
-            if (policyOwner.isEmpty()) {
-                System.out.println("Policy owner cannot be empty!");
-            } else return policyOwner;
-        }
-    }
-
-    private static LocalDate getExpirationDate(Scanner scanner) {
-        LocalDate date;
-        while (true) {
-            System.out.println("Enter expiration date (yyyy-MM-dd): ");
-            try {
-                date = LocalDate.parse(scanner.nextLine());
-                return date;
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please enter the date in YYYY-MM-DD format.");
+            if (!id.isEmpty()) {
+                try {
+                    policyHolder = (PolicyHolder) DataManager.getCustomer(id); {
+                        if (policyHolder == null) System.out.println("There is no customer with this id");
+                        else return policyHolder;
+                    }
+                } catch (ClassCastException e) {
+                    System.out.println("This is not a policy holder!");
+                }
             }
+            else System.out.println("Customer name cannot be null");
         }
     }
+
+    private static List<Dependant> getDependants(Scanner scanner) {
+        List<Dependant> dependants = new ArrayList<>();
+        while (true) {
+            System.out.println("Enter dependant id:  ('q' to exit)");
+            String id = scanner.nextLine();
+            if (id.equalsIgnoreCase("q")) {
+                break;
+            }
+            if (!id.isEmpty()) {
+                try {
+                    Dependant customer = (Dependant) DataManager.getCustomer(id); {
+                        if (customer == null) System.out.println("There is no customer with this id");
+                        else dependants.add( customer);
+                    }
+                } catch (ClassCastException e) {
+                    System.out.println("This is not a dependant!");
+                }
+            }
+            else System.out.println("Customer name cannot be null");
+        }
+        return dependants;
+    }
+
 }

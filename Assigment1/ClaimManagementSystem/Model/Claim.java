@@ -139,18 +139,23 @@ public class Claim {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
         sb.append("Claim Details:\n");
         sb.append(String.format("  - ID: %s\n", id));
         sb.append(String.format("  - Claim Date: %s\n", claimDate));
         sb.append(String.format("  - Insured Person: %s\n", insuredPerson.getName()));
         sb.append(String.format("  - Card Number: %s\n", cardNumber));
         sb.append(String.format("  - Exam Date: %s\n", examDate));
+        sb.append(String.format("  - Documents: %s\n", documentsToString()));
         sb.append(String.format("  - Claim Amount: %.2f\n", claimAmount));
         sb.append(String.format("  - Status: %s\n", status));
+        sb.append(String.format("  - Bank: %s\n", bankName));
+        sb.append(String.format("  - Receiver: %s\n", receiverName));
+        sb.append(String.format("  - Bank Number: %s\n", bankNumber));
         return sb.toString();
     }
 
-    public String toData() {
+    private String documentsToString() {
         StringBuilder documentsString = new StringBuilder();
         for (String document : documents) {
             documentsString.append(document).append(",");
@@ -160,13 +165,17 @@ public class Claim {
             documentsString.deleteCharAt(documentsString.length() - 1);
         } else documentsString.append("none");
 
+        return documentsString.toString();
+    }
+
+    public String toData() {
         return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s",
                 id,
                 claimDate,
                 insuredPerson.getId(),
                 cardNumber,
                 examDate,
-                documentsString,
+                documentsToString(),
                 claimAmount,
                 status,
                 bankName,

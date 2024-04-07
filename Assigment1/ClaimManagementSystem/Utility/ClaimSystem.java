@@ -71,17 +71,18 @@ public class ClaimSystem {
 
     public static void displayOneClaim(String id) {
         Claim claim = claimService.getOne(id);
-        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
-                "ID", "Claim Date", "Insured Person", "Card Number",
-                "Exam Date", "Documents", "Claim Amount", "Status",
-                "Bank", "Receiver", "Bank Number");
-
-        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
-                claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
-                claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
-                claim.getBankName(), claim.getReceiverName(), claim.getBankNumber());
-
-        System.out.println();
+        System.out.println(claim);
+//        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+//                "ID", "Claim Date", "Insured Person", "Card Number",
+//                "Exam Date", "Documents", "Claim Amount", "Status",
+//                "Bank", "Receiver", "Bank Number");
+//
+//        System.out.printf("%-15s %-15s %-20s %-15s %-15s %-10s %-15s %-10s %-15s %-20s %-15s\n",
+//                claim.getId(), claim.getClaimDate(), claim.getInsuredPerson().getName(), claim.getCardNumber(),
+//                claim.getExamDate(), claim.getDocuments().size(), claim.getClaimAmount(), claim.getStatus(),
+//                claim.getBankName(), claim.getReceiverName(), claim.getBankNumber());
+//
+//        System.out.println();
     }
 
 }

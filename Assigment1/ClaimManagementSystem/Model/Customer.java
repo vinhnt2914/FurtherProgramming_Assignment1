@@ -54,15 +54,28 @@ public abstract class Customer {
         sb.append(String.format("  - ID: %s\n", id));
         sb.append(String.format("  - Name: %s\n", name));
         sb.append(String.format("  - Insurance Card: %s\n", insuranceCard == null ? "None" : insuranceCard.getCardNumber()));
-        sb.append("  - Claims:\n");
-        if (claims.isEmpty()) {
-            sb.append("      None\n");
-        } else {
-            for (Claim claim : claims) {
-                sb.append(String.format("      - %s\n", claim.getId()));
-            }
-        }
+        sb.append(String.format("  - Claims: %s\n", claimsToString()));
+//        if (claims.isEmpty()) {
+//            sb.append(" none");
+//        } else {
+//            for (Claim claim : claims) {
+//                sb.append(String.format(" %s,", claim.getId()));
+//            }
+//        }
         return sb.toString();
+    }
+
+    private String claimsToString() {
+        StringBuilder claimsString = new StringBuilder();
+        for (Claim claim : claims) {
+            claimsString.append(claim.getId()).append(",");
+        }
+        // Remove the trailing comma if there are documents present
+        if (claimsString.isEmpty()) {
+            claimsString.append("none,");
+        }
+
+        return claimsString.toString();
     }
 
     public String toData() {
@@ -70,9 +83,8 @@ public abstract class Customer {
         sb.append(id).append(",");
         sb.append(name).append(",");
         sb.append(insuranceCard == null ? null : insuranceCard.getCardNumber()).append(",");
-        for (Claim claim : claims) {
-            sb.append(claim.getId()).append(",");
-        }
+        sb.append(claimsToString());
+
         if (this instanceof PolicyHolder) {
             for (String id : ((PolicyHolder) this).getDependantsIDS()) {
                 sb.append(id).append(",");

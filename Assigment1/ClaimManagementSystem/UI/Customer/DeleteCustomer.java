@@ -23,7 +23,9 @@ public class DeleteCustomer {
     private static void displayOptions() {
         Scanner scanner = new Scanner(System.in);
         Customer customer = getCustomerId(scanner);
+
         deleteCustomer(customer);
+        exit();
     }
 
     private static void deleteCustomer(Customer customer) {
